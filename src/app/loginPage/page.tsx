@@ -5,71 +5,96 @@ import NortusTextLogo from "../../../public/imgs/NortusTextLogo.svg";
 import { Eye, EyeOff } from "@deemlol/next-icons";
 import { useState, FormEvent } from "react";
 import AsideImg from "./components/aside-img";
-import { isValidEmail } from "@/utils/validation";
+import { loginSchema, type LoginFormData } from "@/utils/validation";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    general?: string;
+  }>({});
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setEmail(value);
+    setFormData((prev) => ({ ...prev, email: value }));
 
     // Clear error when user starts typing
-    if (emailError) {
-      setEmailError("");
+    if (errors.email) {
+      setErrors((prev) => ({ ...prev, email: undefined }));
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, password: value }));
+
+    // Clear error when user starts typing
+    if (errors.password) {
+      setErrors((prev) => ({ ...prev, password: undefined }));
     }
   };
 
   const handleEmailBlur = () => {
-    const validation = isValidEmail(email);
-    if (!validation.isValid && email) {
-      setEmailError(validation.error || "");
+    if (!formData.email) return;
+
+    try {
+      loginSchema.shape.email.parse(formData.email);
+      setErrors((prev) => ({ ...prev, email: undefined }));
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prev) => ({ ...prev, email: error.issues[0].message }));
+      }
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoginError("");
-    setEmailError("");
+    setErrors({});
 
-    // Validate email
-    const validation = isValidEmail(email);
-    if (!validation.isValid) {
-      setEmailError(validation.error || "");
-      return;
-    }
-
-    // Validate password
-    if (!password) {
-      setLoginError("Senha é obrigatória");
-      return;
+    // Validate with Zod
+    try {
+      loginSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors: { email?: string; password?: string } = {};
+        error.issues.forEach((issue) => {
+          const field = issue.path[0] as "email" | "password";
+          if (!fieldErrors[field]) {
+            fieldErrors[field] = issue.message;
+          }
+        });
+        setErrors(fieldErrors);
+        return;
+      }
     }
 
     setIsLoading(true);
 
     try {
       const result = await signIn("credentials", {
-        email,
-        password,
+        email: formData.email,
+        password: formData.password,
         redirect: false,
       });
 
       if (result?.error) {
-        setLoginError("Credenciais inválidas");
+        setErrors({ general: "Credenciais inválidas" });
       } else if (result?.ok) {
         router.push("/");
       }
     } catch (error) {
       console.error("Login error:", error);
-      setLoginError("Erro ao fazer login. Tente novamente.");
+      setErrors({ general: "Erro ao fazer login. Tente novamente." });
     } finally {
       setIsLoading(false);
     }
@@ -95,9 +120,9 @@ export default function LoginPage() {
             </p>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
-              {loginError && (
+              {errors.general && (
                 <div className="rounded-lg bg-red-500/10 border border-red-500/50 px-4 py-3 text-red-400">
-                  {loginError}
+                  {errors.general}
                 </div>
               )}
 
@@ -105,19 +130,19 @@ export default function LoginPage() {
                 <input
                   type="email"
                   placeholder="Usuário*"
-                  value={email}
+                  value={formData.email}
                   onChange={handleEmailChange}
                   onBlur={handleEmailBlur}
                   className={`w-full rounded-2xl border-2 ${
-                    emailError ? "border-red-500" : "border-gray-500"
+                    errors.email ? "border-red-500" : "border-gray-500"
                   } bg-transparent px-5 py-4 placeholder-gray-200 focus:outline-none focus:ring-2 ${
-                    emailError ? "focus:ring-red-500" : "focus:ring-sky-500"
+                    errors.email ? "focus:ring-red-500" : "focus:ring-sky-500"
                   }`}
                   disabled={isLoading}
                 />
-                {emailError ? (
+                {errors.email ? (
                   <span className="pl-5 text-sm text-red-400">
-                    {emailError}
+                    {errors.email}
                   </span>
                 ) : (
                   <span className="pl-5 text-sm text-gray-300">
@@ -126,14 +151,20 @@ export default function LoginPage() {
                 )}
               </div>
 
-              <div>
+              <div className="flex flex-col gap-1.5">
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="Senha*"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-2xl border-2 border-gray-500 bg-transparent px-5 py-4 placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 pr-12"
+                    value={formData.password}
+                    onChange={handlePasswordChange}
+                    className={`w-full rounded-2xl border-2 ${
+                      errors.password ? "border-red-500" : "border-gray-500"
+                    } bg-transparent px-5 py-4 placeholder-gray-200 focus:outline-none focus:ring-2 ${
+                      errors.password
+                        ? "focus:ring-red-500"
+                        : "focus:ring-sky-500"
+                    } pr-12`}
                     disabled={isLoading}
                   />
                   <button
@@ -152,6 +183,11 @@ export default function LoginPage() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <span className="pl-5 text-sm text-red-400">
+                    {errors.password}
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center justify-between text-sm">
