@@ -1,3 +1,9 @@
+import LoginPage from "./loginPage/page";
+
 export default function Home() {
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <LoginPage />
+    </div>
+  );
 }
