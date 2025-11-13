@@ -19,7 +19,7 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { name: "Dashboard", href: "/", icon: DashboardIcon },
+  { name: "Dashboard", href: "/dashboard", icon: DashboardIcon },
   { name: "Gestão de Tickets", href: "/gestaoTickets", icon: GestaoIcon },
   {
     name: "Chat & Assistente Virtual",
