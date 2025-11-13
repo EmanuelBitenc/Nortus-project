@@ -7,6 +7,8 @@
   --black: #000;
   --font-sans: var(--font-inter);
   --font-display: var(--font-space-grotesk);
+  --highlight-color: #1876d2;
+  --secondary-color: #0a1628;
 }
 
 body {
