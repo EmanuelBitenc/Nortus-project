@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.buttonHelp {
+  @apply flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1a2744] hover:bg-[#243252] transition-colors text-sm text-slate-200 cursor-pointer;
+}
