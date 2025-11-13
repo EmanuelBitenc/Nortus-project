@@ -5,14 +5,20 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const isOnLoginPage = req.nextUrl.pathname === "/loginPage";
   const isOnRootPage = req.nextUrl.pathname === "/";
+  const isOnDashboard = req.nextUrl.pathname === "/dashboard";
 
-  // Se logado, redireciona apra tela inicial
+  // Se logado, redireciona para dashboard
   if (isLoggedIn && isOnLoginPage) {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  // Se não logado, redireciona para pagina de login
-  if (!isLoggedIn && !isOnLoginPage && isOnRootPage) {
+  // Se não logado e não estiver na página de login, redireciona para login
+  if (!isLoggedIn && !isOnLoginPage && !isOnRootPage) {
+    return NextResponse.redirect(new URL("/loginPage", req.url));
+  }
+
+  // Se não logado e tentar acessar dashboard, redireciona para login
+  if (!isLoggedIn && (isOnRootPage || isOnDashboard)) {
     return NextResponse.redirect(new URL("/loginPage", req.url));
   }
 
