@@ -2,6 +2,7 @@ import { DashboardData } from "@/services/dashboard.service";
 import Image from "next/image";
 import up from "../../../../public/icons/up.svg";
 import down from "../../../../public/icons/down.svg";
+import "../style.css"
 
 interface ResumeDashboardProps {
   dashboardData: DashboardData;
@@ -15,12 +16,12 @@ export default function ResumeDashboard({
   type,
 }: ResumeDashboardProps) {
   return (
-    <div className="relative rounded-xl border border-slate-700/50 bg-slate-800/50 px-4 py-4 backdrop-blur-sm">
-      <div className="flex h-full flex-col justify-between py-2">
-        <p className="font-second-display mb-1 text-xs text-(--white)">
+    <div className="relative rounded-xl border border-slate-700/50 bg-slate-800/50 px-3 py-3 backdrop-blur-sm sm:px-4 sm:py-4">
+      <div className="flex h-full flex-col justify-between py-1 sm:py-2">
+        <p className="font-second-display mb-1 text-[10px] text-(--white) sm:text-xs">
           {name}
         </p>
-        <p className="mb-1 text-xl text-white xl:text-2xl xl:font-bold">
+        <p className="mb-1 text-lg font-bold text-white sm:text-xl lg:text-2xl">
           {type === "arpu" ? "R$ " : ""}
 
           {type === "arpu" &&
@@ -36,7 +37,7 @@ export default function ResumeDashboard({
           {type === "arpu" ? " " : "%"}
         </p>
         <span
-          className={`text-xs ${
+          className={`text-[10px] sm:text-xs ${
             dashboardData.kpisResume[type].variacao >= 0
               ? "text-green-400"
               : "text-red-400"
@@ -48,18 +49,18 @@ export default function ResumeDashboard({
       </div>
 
       {type === "arpu" || type === "churn" ? (
-        <div>
+        <div className="block lg:hidden 2xl:block">
           {dashboardData.kpisResume[type].variacao >= 0 ? (
             <Image
               src={up}
               alt={"icon"}
-              className="absolute right-0 bottom-0 w-32 lg:w-32 2xl:right-5"
+              className="absolute bottom-0 right-0 w-20 lg:w-24"
             />
           ) : (
             <Image
               src={down}
               alt={"icon"}
-              className="absolute right-0 bottom-0 w-32 lg:w-36 2xl:right-0"
+              className="absolute bottom-0 right-0 w-20 lg:w-24"
             />
           )}
         </div>

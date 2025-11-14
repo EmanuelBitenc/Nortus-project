@@ -17,12 +17,12 @@ export default function EvolucaoKpis({ dashboardData }: EvolucaoKpisProps) {
 
   return (
     <div className="card-dashboard lg:col-span-2">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-white">
+      <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-lg font-semibold text-white sm:text-xl">
           Evolução dos KPI&apos;s
         </h2>
 
-        <div className="flex gap-2 rounded-4xl bg-slate-700/50 p-2">
+        <div className="flex flex-wrap gap-2 rounded-4xl bg-slate-700/50 p-1.5 sm:p-2">
           <EvolucaoKpisButtons
             setActiveKpi={setActiveKpi}
             activeKpi={activeKpi}
@@ -49,7 +49,7 @@ export default function EvolucaoKpis({ dashboardData }: EvolucaoKpisProps) {
           />
         </div>
       </div>
-      <div className="h-64">
+      <div className="h-48 sm:h-56 lg:h-64">
         {activeKpi === "arpu" && (
           <ArpuChart kpisTrend={dashboardData.kpisTrend} />
         )}

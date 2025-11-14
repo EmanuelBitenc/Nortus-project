@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 const TOKEN_KEY = "accessToken";
 const USERNAME_KEY = "username";
 
-// Configuração dos cookies
 const COOKIE_OPTIONS = {
   expires: 7,
   secure: process.env.NODE_ENV === "production",
