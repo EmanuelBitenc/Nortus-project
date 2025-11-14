@@ -93,7 +93,7 @@ export default function MapComponent({
   if (!isMounted) {
     return (
       <div className="flex h-full items-center justify-center rounded-lg bg-slate-900/30">
-        <div className="text-slate-400">Carregando mapa...</div>
+        <div className="text-(--text-secondary-color)">Carregando mapa...</div>
       </div>
     );
   }
@@ -107,7 +107,7 @@ export default function MapComponent({
         style={{ height: "100%", width: "100%", borderRadius: "0.5rem" }}
         scrollWheelZoom={true}
         zoomControl={true}
-        whenReady={() => {}}
+        whenReady={() => { }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

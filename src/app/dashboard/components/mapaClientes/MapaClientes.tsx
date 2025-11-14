@@ -8,7 +8,7 @@ import { useState } from "react";
 const MapComponent = dynamic(() => import("./MapComponent"), {
     ssr: false,
     loading: () => (
-        <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-slate-400">
+        <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-(--text-secondary-color)">
             <p>Carregando mapa...</p>
         </div>
     ),
@@ -27,7 +27,7 @@ export default function MapaClientes() {
                         Mapa de clientes por região
                     </h3>
                 </div>
-                <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-slate-400">
+                <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-(--text-secondary-color)">
                     <p>Carregando mapa...</p>
                 </div>
             </div>
