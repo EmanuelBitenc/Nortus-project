@@ -26,7 +26,6 @@ const getIconSVG = (iconName: string): string => {
   return icons[iconName] || icons.homeIcon;
 };
 
-
 const createCustomIcon = (category: string, color: string) => {
   const iconMap: Record<string, string> = {
     tourism: "beachIcon",
@@ -78,7 +77,7 @@ export default function MapComponent({
 
   useEffect(() => {
     setIsMounted(true);
-    
+
     return () => {
       setIsMounted(false);
     };
@@ -94,7 +93,7 @@ export default function MapComponent({
   if (!isMounted) {
     return (
       <div className="flex h-full items-center justify-center rounded-lg bg-slate-900/30">
-        <div className="text-slate-400">Carregando mapa...</div>
+        <div className="text-(--text-secondary-color)">Carregando mapa...</div>
       </div>
     );
   }
@@ -108,8 +107,7 @@ export default function MapComponent({
         style={{ height: "100%", width: "100%", borderRadius: "0.5rem" }}
         scrollWheelZoom={true}
         zoomControl={true}
-        whenReady={() => {
-        }}
+        whenReady={() => { }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -117,19 +115,11 @@ export default function MapComponent({
           maxZoom={19}
         />
         {markers.map(({ location, icon }) => (
-          <Marker
-            key={location.id}
-            position={location.coordinates}
-            icon={icon}
-          >
+          <Marker key={location.id} position={location.coordinates} icon={icon}>
             <Popup>
               <div className="flex flex-col">
-                <h3 className=" font-semibold ">
-                  {location.name}
-                </h3>
-                <p className=" text-xs ">
-                  {location.description}
-                </p>
+                <h3 className="font-semibold">{location.name}</h3>
+                <p className="text-xs">{location.description}</p>
                 <p className="text-xs text-slate-500">{location.address}</p>
               </div>
             </Popup>

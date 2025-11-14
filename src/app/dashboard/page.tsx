@@ -1,5 +1,4 @@
 "use client";
-import "./style.css";
 import DashboardLayout from "@/components/page-layout";
 import HeaderPages from "@/components/header-pages";
 import { useDashboardData } from "@/hooks/useDashboard";
@@ -40,7 +39,7 @@ export default function DashboardPage() {
     <DashboardLayout>
       <HeaderPages TitlePage="Dashboard" />
 
-      <div className="mx-auto mb-20 w-full px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mb-20 w-11/12 px-4 sm:px-6 lg:px-8">
         {/* Grid principal - KPIs */}
         <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
           {/* Evolução dos KPI's - Ocupa 2 colunas em telas grandes */}
@@ -76,7 +75,6 @@ export default function DashboardPage() {
 
         {/* Grid 2 - Mapa e Impacto */}
         <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
-          
           <MapaClientes />
 
           {/* Mapa de impacto */}

@@ -65,11 +65,10 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`group relative flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-200 ${
-                isActive
+              className={`group relative flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-200 ${isActive
                   ? "button-shiny bg-(--highlight-color) shadow-lg shadow-sky-500/30"
                   : "bg-transparent hover:bg-slate-700/50"
-              } `}
+                } `}
               title={item.name}
             >
               <Image
@@ -110,7 +109,7 @@ export default function Sidebar() {
                 <p className="text-sm font-medium text-white">
                   {session?.user?.name || "Usuário"}
                 </p>
-                <p className="truncate text-xs text-slate-400">
+                <p className="truncate text-xs text-(--text-secondary-color)">
                   {session?.user?.email}
                 </p>
               </div>
