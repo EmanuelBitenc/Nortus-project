@@ -51,29 +51,25 @@ export default function Sidebar() {
   const initials = getInitials(session?.user?.name);
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-20 bg-(--secondary-color) border-r border-slate-700 flex flex-col items-center py-6 z-50">
+    <aside className="fixed top-0 left-0 z-50 flex h-screen w-20 flex-col items-center border-r border-slate-700 bg-(--secondary-color) py-6">
       <div className="mb-8">
         <Link href="/">
           <Image src={NortusLogo} alt="Nortus" width={40} height={40} />
         </Link>
       </div>
 
-      <nav className="flex-1 flex flex-col gap-8 w-full items-center justify-center mb-0 2xl:mb-52 ">
+      <nav className="mb-0 flex w-full flex-1 flex-col items-center justify-center gap-8 2xl:mb-52">
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.name}
               href={item.href}
-              className={`
-                w-12 h-12 rounded-xl flex items-center justify-center
-                transition-all duration-200 relative group
-                ${
-                  isActive
-                    ? "bg-(--highlight-color) shadow-lg shadow-sky-500/30  button-shiny"
-                    : "bg-transparent hover:bg-slate-700/50" 
-                }
-              `}
+              className={`group relative flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-200 ${
+                isActive
+                  ? "button-shiny bg-(--highlight-color) shadow-lg shadow-sky-500/30"
+                  : "bg-transparent hover:bg-slate-700/50"
+              } `}
               title={item.name}
             >
               <Image
@@ -84,7 +80,7 @@ export default function Sidebar() {
                 className={`${isActive ? "brightness-0 invert" : "opacity-70"}`}
               />
 
-              <span className="absolute left-full ml-4 px-3 py-2 bg-(--secondary-color) text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg border border-slate-700 ">
+              <span className="invisible absolute left-full ml-4 rounded-lg border border-slate-700 bg-(--secondary-color) px-3 py-2 text-sm whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
                 {item.name}
               </span>
             </Link>
@@ -92,9 +88,9 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-auto relative">
+      <div className="relative mt-auto">
         <div
-          className="w-12 h-12 rounded-full bg-(--highlight-color) flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:bg-sky-600 transition-colors "
+          className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-(--highlight-color) text-sm font-bold text-white transition-colors hover:bg-sky-600"
           title={session?.user?.name || "Usuário"}
           onClick={() => setShowUserMenu(!showUserMenu)}
         >
@@ -109,19 +105,19 @@ export default function Sidebar() {
               onClick={() => setShowUserMenu(false)}
             />
 
-            <div className="absolute bottom-0 left-full ml-4 bg-slate-800 rounded-lg shadow-lg border border-slate-700 p-3 min-w-[200px] z-50">
-              <div className="mb-3 pb-3 border-b border-slate-700">
-                <p className="text-white font-medium text-sm">
+            <div className="absolute bottom-0 left-full z-50 ml-4 min-w-[200px] rounded-lg border border-slate-700 bg-slate-800 p-3 shadow-lg">
+              <div className="mb-3 border-b border-slate-700 pb-3">
+                <p className="text-sm font-medium text-white">
                   {session?.user?.name || "Usuário"}
                 </p>
-                <p className="text-slate-400 text-xs truncate">
+                <p className="truncate text-xs text-slate-400">
                   {session?.user?.email}
                 </p>
               </div>
 
               <button
                 onClick={() => signOut({ callbackUrl: "/loginPage" })}
-                className="w-full px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg font-medium transition-colors text-white text-sm"
+                className="w-full rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
               >
                 Sair
               </button>
