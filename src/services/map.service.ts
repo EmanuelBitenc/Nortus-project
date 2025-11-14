@@ -26,6 +26,19 @@ export type { Location, MapData, MapResponse };
 export const mapService = {
   getMapData: async (): Promise<MapData> => {
     const response = await api.get<MapResponse>("/map.json");
-    return response.data.data;
+    const data = response.data.data;
+    
+    // Inverte coordenadas  para latitude, longitude
+    const center: [number, number] = [data.center[1], data.center[0]];
+    const locations = data.locations.map((location) => ({
+      ...location,
+      coordinates: [location.coordinates[1], location.coordinates[0]] as [number, number],
+    }));
+    
+    return {
+      ...data,
+      center,
+      locations,
+    };
   },
 };
