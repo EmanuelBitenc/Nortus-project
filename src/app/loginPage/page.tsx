@@ -112,7 +112,7 @@ export default function LoginPage() {
 
           <div className="max-w-[680px]">
             <h1 className="font-display mb-3 text-4xl text-sky-300">Login</h1>
-            <p className="mb-8 text-slate-400">
+            <p className="mb-8 text-(--text-secondary-color)">
               Entre com suas credenciais para acessar a sua conta.
             </p>
 
@@ -130,11 +130,9 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleEmailChange}
                   onBlur={handleEmailBlur}
-                  className={`w-full rounded-2xl border-2 ${
-                    errors.email ? "border-red-500" : "border-gray-500"
-                  } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${
-                    errors.email ? "focus:ring-red-500" : "focus:ring-sky-500"
-                  }`}
+                  className={`w-full rounded-2xl border-2 ${errors.email ? "border-red-500" : "border-gray-500"
+                    } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${errors.email ? "focus:ring-red-500" : "focus:ring-sky-500"
+                    }`}
                   disabled={isLoading}
                 />
                 {errors.email ? (
@@ -155,13 +153,11 @@ export default function LoginPage() {
                     placeholder="Senha*"
                     value={formData.password}
                     onChange={handlePasswordChange}
-                    className={`w-full rounded-2xl border-2 ${
-                      errors.password ? "border-red-500" : "border-gray-500"
-                    } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${
-                      errors.password
+                    className={`w-full rounded-2xl border-2 ${errors.password ? "border-red-500" : "border-gray-500"
+                      } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${errors.password
                         ? "focus:ring-red-500"
                         : "focus:ring-sky-500"
-                    } pr-12`}
+                      } pr-12`}
                     disabled={isLoading}
                   />
                   <button

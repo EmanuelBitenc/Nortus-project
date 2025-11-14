@@ -1,12 +1,23 @@
 "use client";
 
 import { useMemo } from "react";
-import { DashboardData } from "@/services/dashboard.service";
+import { Client, DashboardData } from "@/services/dashboard.service";
 import FiltersTabelaCliente from "./filtersTabelaCliente";
 import { useTabelaClientesStore } from "@/stores/useTabelaClientesStore";
+import Th from "@/components/Table/table";
 
 interface TabelaClientesProps {
   dashboardData: DashboardData;
+}
+
+function getOptions<C extends keyof Client>(clientes: Client[], key: C) {
+  return Array.from(
+    new Set(
+      clientes
+        .map((c) => c[key])
+        .filter(Boolean)
+    )
+  );
 }
 
 export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
@@ -15,21 +26,11 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
 
   const clientes = dashboardData.activeClients.data;
 
-  // valores para os filtros
-  const tiposUnicos = useMemo(
-    () => Array.from(new Set(clientes.map((c) => c.secureType))),
-    [clientes]
-  );
 
-  const locaisUnicos = useMemo(
-    () => Array.from(new Set(clientes.map((c) => c.location))),
-    [clientes]
-  );
+  const statusUnicos = useMemo(() => getOptions(clientes, "status"), [clientes]);
+  const tiposUnicos = useMemo(() => getOptions(clientes, "secureType"), [clientes]);
+  const locaisUnicos = useMemo(() => getOptions(clientes, "location"), [clientes]);
 
-  const statusUnicos = useMemo(
-    () => Array.from(new Set(clientes.map((c) => c.status))),
-    [clientes]
-  );
 
   const clientesFiltrados = useMemo(() => {
     return clientes.filter((cliente) => {
@@ -52,18 +53,18 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Ativo":
-        return "bg-(--highlight-color) text-(--background)";
+        return "bg-(--ativo-color) text-(--background)";
       case "Pendente":
-        return "bg-yellow-500/20 text-yellow-500";
+        return "bg-(--pendente-color) text-(--background)";
       case "Inativo":
         return "bg-red-500/20 text-red-500";
       default:
-        return "bg-slate-500/20 text-slate-400";
+        return "bg-slate-500/20 text-(--text-secondary-color)";
     }
   };
 
   return (
-    <div className="card-dashboard">
+    <div className="card-board">
       <h3 className="mb-4 text-base font-semibold text-white sm:text-lg">
         Clientes ativos
       </h3>
@@ -74,35 +75,22 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
         locaisUnicos={locaisUnicos}
       />
 
-      {/* Tabela */}
       <div className="min-h-[450px] overflow-x-auto">
         <table className="w-full min-w-full">
           <thead>
             <tr className="border-b border-slate-700">
-              <th className="pb-3 text-left text-xs font-medium tracking-wider text-slate-400">
-                Nome
-              </th>
-              <th className="pb-3 text-left text-xs font-medium tracking-wider text-slate-400">
-                Tipo de seguro
-              </th>
-              <th className="pb-3 text-left text-xs font-medium tracking-wider text-slate-400">
-                Valor mensal
-              </th>
-              <th className="pb-3 text-left text-xs font-medium tracking-wider text-slate-400">
-                Status
-              </th>
-              <th className="pb-3 text-left text-xs font-medium tracking-wider text-slate-400">
-                Renovação
-              </th>
-              <th className="pb-3 text-left text-xs font-medium tracking-wider text-slate-400">
-                Região
-              </th>
+              <Th label="Nome" />
+              <Th label="Tipo de seguro" />
+              <Th label="Valor mensal" />
+              <Th label="Status" />
+              <Th label="Renovação" />
+              <Th label="Região" />
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-700/50">
             {clientesFiltrados.length === 0 ? (
               <tr>
-                <td colSpan={5} className="py-8 text-center text-slate-400">
+                <td colSpan={6} className="py-8 text-center text-(--text-secondary-color)">
                   Nenhum cliente encontrado com os filtros aplicados.
                 </td>
               </tr>
@@ -122,7 +110,7 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
                       </span>
                     </div>
                   </td>
-                  <td className="text-white">{cliente.secureType}</td>
+                  <td className="text-white max-w-[200px]">{cliente.secureType}</td>
                   <td className="text-white">
                     {cliente.monthValue.toLocaleString("pt-BR", {
                       style: "currency",
@@ -132,7 +120,7 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
 
                   <td>
                     <span
-                      className={`inline-block rounded-full px-2.5 py-1 font-medium ${getStatusColor(cliente.status)}`}
+                      className={`inline-block rounded-full px-3 py-1 font-medium ${getStatusColor(cliente.status)}`}
                     >
                       {cliente.status}
                     </span>
@@ -146,8 +134,8 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
         </table>
       </div>
 
-      {/* Contador de resultados */}
-      <div className="mt-4 text-center text-xs text-slate-400 sm:text-sm">
+
+      <div className="mt-4 text-center text-xs text-(--text-secondary-color) sm:text-sm">
         Mostrando {clientesFiltrados.length} de {clientes.length} clientes
       </div>
     </div>

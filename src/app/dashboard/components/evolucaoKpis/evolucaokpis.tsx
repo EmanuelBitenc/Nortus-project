@@ -16,7 +16,7 @@ export default function EvolucaoKpis({ dashboardData }: EvolucaoKpisProps) {
   >("arpu");
 
   return (
-    <div className="card-dashboard lg:col-span-2">
+    <div className="card-board lg:col-span-2">
       <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-semibold text-white sm:text-xl">
           Evolução dos KPI&apos;s
