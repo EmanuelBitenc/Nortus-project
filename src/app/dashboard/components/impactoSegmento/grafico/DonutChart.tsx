@@ -84,7 +84,7 @@ export default function DonutChart({
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="flex h-full w-full items-center justify-center">
       <Chart options={options} series={series} type="donut" width="100%" />
     </div>
   );

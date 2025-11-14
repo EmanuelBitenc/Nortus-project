@@ -126,7 +126,7 @@ export default function ChartComponent({
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <Chart options={options} series={series} type="area" height="100%" />
     </div>
   );
