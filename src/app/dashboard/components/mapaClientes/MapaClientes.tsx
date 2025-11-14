@@ -77,18 +77,18 @@ export default function MapaClientes() {
 
   return (
     <div className="card-dashboard col-span-1 lg:col-span-2">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
-        <h3 className="text-lg font-semibold text-white">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <h3 className="text-base font-semibold text-white sm:text-lg">
           Mapa de clientes por região
         </h3>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           
           <SelectMap value={selectedLocation} change={setSelectedLocation} datas={uniqueLocations}  />
 <SelectMap value={selectedCategory} change={setSelectedCategory} datas={uniqueCategories} categoryNames={categoryNames} />
           
         </div>
       </div>
-      <div className="h-9/12 xl:h-11/12 ">
+      <div className="h-64 sm:h-72 lg:h-80">
         <MapComponent
           key={`map-${selectedLocation}-${selectedCategory}-${filteredLocations.length}`}
           center={mapData.center}

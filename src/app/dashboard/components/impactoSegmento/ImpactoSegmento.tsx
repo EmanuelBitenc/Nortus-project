@@ -25,25 +25,25 @@ export default function ImpactoSegmento({
 
   return (
     <div className="card-dashboard">
-      <h3 className="mb-4 text-lg font-semibold text-white">
+      <h3 className="mb-4 text-base font-semibold text-white sm:text-lg">
         Mapa de impacto por segmento
       </h3>
       <div className="flex flex-col items-center">
-        <div className="flex h-56 items-center justify-center">
+        <div className="flex h-48 items-center justify-center sm:h-56">
           <DonutChart series={series} labels={labels} colors={colors} />
         </div>
-        <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm">
+        <div className="mt-3 flex flex-wrap justify-center gap-2 text-sm sm:mt-4">
           {segments.map((segmento, index) => (
             <div key={segmento.nome} className="flex items-center gap-2">
               <span
-                className="h-3 w-3 rounded-full"
+                className="h-2.5 w-2.5 rounded-full sm:h-3 sm:w-3"
                 style={{ backgroundColor: colors[index] }}
               ></span>
-              <span className="text-xs text-slate-300">{segmento.nome}</span>
+              <span className="text-[10px] text-slate-300 sm:text-xs">{segmento.nome}</span>
             </div>
           ))}
         </div>
-        <button className="button-shiny mt-4 w-8/12 rounded-4xl bg-sky-500 px-4 py-2 text-white hover:bg-sky-600">
+        <button className="button-shiny mt-3 w-full rounded-4xl bg-sky-500 px-4 py-2 text-sm text-white hover:bg-sky-600 sm:mt-4 sm:w-10/12 sm:text-base">
           Analisar segmentos
         </button>
       </div>

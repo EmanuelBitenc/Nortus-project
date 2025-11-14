@@ -12,7 +12,7 @@ export default function SelectMap({ value, change, datas, categoryNames = {} }: 
     return(<select
             value={value}
             onChange={(e) => change(e.target.value)}
-            className="rounded-2xl  border border-slate-600 bg-(--background) px-3 py-1 text-sm text-slate-300"
+            className="rounded-2xl border border-slate-600 bg-(--background) px-2 py-1 text-xs text-slate-300 sm:px-3 sm:text-sm"
           >
             <option value="all">Todos os tipos</option>
             {datas.map((data) => (
