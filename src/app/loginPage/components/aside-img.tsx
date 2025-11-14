@@ -5,8 +5,8 @@ import { ChevronDown, Headphones } from "@deemlol/next-icons";
 
 export default function AsideImg() {
   return (
-    <div className="relative w-full h-[620px]">
-      <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
+    <div className="relative h-[620px] w-full">
+      <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-2xl">
         <Image
           src={loginFigure}
           alt="Ilustração"
@@ -16,7 +16,7 @@ export default function AsideImg() {
         />
       </div>
 
-      <div className="absolute top-0 right-0 flex items-center gap-3 bg-(--background) px-2 py-2 rounded-bl-2xl">
+      <div className="absolute top-0 right-0 flex items-center gap-3 rounded-bl-2xl bg-(--background) px-2 py-2">
         <button className="buttonHelp">
           <Headphones size={16} />
           <span>Ajuda</span>

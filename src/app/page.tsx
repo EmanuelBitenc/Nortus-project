@@ -17,8 +17,8 @@ export default function Home() {
   }, [status, router]);
 
   return (
-    <div className="min-h-screen bg-[#071225] flex items-center justify-center">
-      <p className="text-white text-xl">Carregando...</p>
+    <div className="flex min-h-screen items-center justify-center bg-[#071225]">
+      <p className="text-xl text-white">Carregando...</p>
     </div>
   );
 }

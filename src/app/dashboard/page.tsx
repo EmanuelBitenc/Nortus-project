@@ -1,9 +1,12 @@
 "use client";
-
+import "./style.css";
 import DashboardLayout from "@/components/page-layout";
 import HeaderPages from "@/components/header-pages";
 import { useDashboardData } from "@/hooks/useDashboard";
 import ResumeDashboard from "./components/resumeDashboard";
+import EvolucaoKpis from "./components/evolucaoKpis/evolucaokpis";
+import ImpactoSegmento from "./components/impactoSegmento/ImpactoSegmento";
+import MapaClientes from "./components/mapaClientes/MapaClientes";
 
 export default function DashboardPage() {
   const { data: dashboardData, isLoading, error } = useDashboardData();
@@ -12,8 +15,8 @@ export default function DashboardPage() {
     return (
       <DashboardLayout>
         <HeaderPages TitlePage="Dashboard" />
-        <div className="flex items-center justify-center h-96">
-          <div className="text-white text-xl">Carregando...</div>
+        <div className="flex h-96 items-center justify-center">
+          <div className="text-xl text-white">Carregando...</div>
         </div>
       </DashboardLayout>
     );
@@ -23,8 +26,8 @@ export default function DashboardPage() {
     return (
       <DashboardLayout>
         <HeaderPages TitlePage="Dashboard" />
-        <div className="flex items-center justify-center h-96">
-          <div className="text-red-500 text-xl">
+        <div className="flex h-96 items-center justify-center">
+          <div className="text-xl text-red-500">
             Erro ao carregar dados do dashboard
           </div>
         </div>
@@ -36,37 +39,14 @@ export default function DashboardPage() {
     <DashboardLayout>
       <HeaderPages TitlePage="Dashboard" />
 
-      {/* Grid Principal: 3 colunas x 2 linhas */}
-      <div className="max-w-11/12 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  mb-6">
-          {/* Coluna 1-2, Linha 1 - Evolução dos KPI's */}
-          <div className="lg:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-white">
-                Evolução dos KPI&apos;s
-              </h2>
-              <div className="flex gap-2">
-                <button className="px-4 py-2 text-sm rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-700">
-                  Retenção
-                </button>
-                <button className="px-4 py-2 text-sm rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-700">
-                  Conversão
-                </button>
-                <button className="px-4 py-2 text-sm rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-700">
-                  Churn
-                </button>
-                <button className="px-4 py-2 text-sm rounded-lg bg-sky-500 text-white">
-                  ARPU
-                </button>
-              </div>
-            </div>
-            <div className="h-64 flex items-center justify-center text-slate-400">
-              <p>Gráfico de Evolução dos KPI&apos;s</p>
-            </div>
-          </div>
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
+        {/* Grid principal - KPIs */}
+        <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
+          {/* Evolução dos KPI's - Ocupa 2 colunas em telas grandes */}
+          <EvolucaoKpis dashboardData={dashboardData} />
 
-          {/* Coluna 3, Linha 1 - Grid interno 2x2 de Cards */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Cards de resumo - 2x2 grid */}
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             <ResumeDashboard
               dashboardData={dashboardData}
               name="ARPU"
@@ -91,96 +71,49 @@ export default function DashboardPage() {
               type="churn"
             />
           </div>
-
-          {/* Coluna 1, Linha 2 - Mapa de clientes */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 col-span-2">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">
-                Mapa de clientes por região
-              </h3>
-              <select className="px-3 py-1 text-sm rounded-lg bg-slate-700/50 text-slate-300 border border-slate-600">
-                {dashboardData.activeClients.filters.locations.map(
-                  (location) => (
-                    <option key={location} value={location}>
-                      {location}
-                    </option>
-                  )
-                )}
-              </select>
-            </div>
-            <div className="h-64 bg-slate-900/30 rounded-lg flex items-center justify-center text-slate-400">
-              <p>Mapa interativo</p>
-            </div>
-          </div>
-
-          {/* Coluna 2, Linha 2 - Mapa de impacto */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-            <h3 className="text-lg font-semibold text-white mb-4">
-              Mapa de impacto por segmento
-            </h3>
-            <div className="h-48 flex items-center justify-center">
-              <div className="relative w-48 h-48">
-                <div className="w-full h-full rounded-full bg-slate-700/50 flex items-center justify-center text-slate-400">
-                  Gráfico Pizza
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-              {dashboardData.segments.map((segment, index) => (
-                <div key={segment.nome} className="flex items-center gap-2">
-                  <span
-                    className={`w-3 h-3 rounded-full ${
-                      [
-                        "bg-sky-500",
-                        "bg-blue-500",
-                        "bg-cyan-500",
-                        "bg-indigo-500",
-                        "bg-purple-500",
-                      ][index % 5]
-                    }`}
-                  ></span>
-                  <span className="text-slate-300 text-xs">{segment.nome}</span>
-                </div>
-              ))}
-            </div>
-            <button className="w-full mt-4 px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-lg transition-colors">
-              Analisar segmentos
-            </button>
-          </div>
         </div>
 
-        {/* Coluna 3, Linha 2 - Clientes ativos */}
-        <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-          <h3 className="text-lg font-semibold text-white mb-4">
+        {/* Grid 2 - Mapa e Impacto */}
+        <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
+          {/* Mapa de clientes - Ocupa 2 colunas em telas grandes */}
+          <MapaClientes />
+
+          {/* Mapa de impacto - Ocupa 1 coluna */}
+          <ImpactoSegmento dashboardData={dashboardData} />
+        </div>
+
+        {/* Clientes ativos */}
+        <div className="card-dashboard">
+          <h3 className="mb-4 text-base font-semibold text-white sm:text-lg">
             Clientes ativos
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {dashboardData.activeClients.data.slice(0, 6).map((client) => (
               <div
                 key={client.id}
-                className="flex items-center justify-between p-3 bg-slate-700/30 rounded-lg"
+                className="flex flex-col gap-2 rounded-lg bg-slate-700/30 p-3 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-sky-500/20 flex items-center justify-center text-sky-400 font-semibold text-xs">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-xs font-semibold text-sky-400">
                     {client.name
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
                   </div>
-                  <div>
-                    <p className="text-white font-medium text-sm">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-white">
                       {client.name}
                     </p>
-                    <p className="text-slate-400 text-xs">{client.email}</p>
+                    <p className="truncate text-xs text-slate-400">{client.email}</p>
                   </div>
                 </div>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs ${
+                  className={`w-fit shrink-0 self-start rounded-full px-2 py-1 text-xs sm:self-center ${
                     client.status === "Ativo"
                       ? "bg-green-500/20 text-green-500"
                       : client.status === "Pendente"
-                      ? "bg-yellow-500/20 text-yellow-500"
-                      : "bg-red-500/20 text-red-500"
+                        ? "bg-yellow-500/20 text-yellow-500"
+                        : "bg-red-500/20 text-red-500"
                   }`}
                 >
                   {client.status}

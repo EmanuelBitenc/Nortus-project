@@ -9,9 +9,9 @@ interface PageLayoutProps {
 
 export default function PageLayout({ children }: PageLayoutProps) {
   return (
-    <div className="min-h-screen bg-(--background) flex">
+    <div className="flex min-h-screen bg-(--background)">
       <Sidebar />
-      <main className="flex-1 ml-20 ">{children}</main>
+      <main className="ml-20 flex-1">{children}</main>
     </div>
   );
 }

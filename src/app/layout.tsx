@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, Montserrat } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/auth-provider";
 import QueryProvider from "@/components/query-provider";
+import "leaflet/dist/leaflet.css";
 
 const inter = Inter({
   variable: "--font-inter",
