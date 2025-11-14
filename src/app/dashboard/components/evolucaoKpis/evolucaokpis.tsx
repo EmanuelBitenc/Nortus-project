@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import ArpuChart from "./grafico/ArpuChart";
 import ConversionChart from "./grafico/ConversionChart";
@@ -15,7 +17,7 @@ export default function EvolucaoKpis({dashboardData}: EvolucaoKpisProps) {
   >("arpu");
 
     return (
-        <div className=" lg:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+        <div className=" lg:col-span-2 card-dashboard">
                     <div className="flex justify-between items-center mb-6">
                       <h2 className="text-xl font-semibold text-white">
                         Evolução dos KPI&apos;s

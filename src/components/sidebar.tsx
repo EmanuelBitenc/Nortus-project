@@ -70,8 +70,8 @@ export default function Sidebar() {
                 transition-all duration-200 relative group
                 ${
                   isActive
-                    ? "bg-(--highlight-color) shadow-lg shadow-sky-500/30"
-                    : "bg-transparent hover:bg-slate-700/50"
+                    ? "bg-(--highlight-color) shadow-lg shadow-sky-500/30  button-shiny"
+                    : "bg-transparent hover:bg-slate-700/50" 
                 }
               `}
               title={item.name}
@@ -84,7 +84,7 @@ export default function Sidebar() {
                 className={`${isActive ? "brightness-0 invert" : "opacity-70"}`}
               />
 
-              <span className="absolute left-full ml-4 px-3 py-2 bg-(--secondary-color) text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg border border-slate-700">
+              <span className="absolute left-full ml-4 px-3 py-2 bg-(--secondary-color) text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg border border-slate-700 ">
                 {item.name}
               </span>
             </Link>
@@ -94,7 +94,7 @@ export default function Sidebar() {
 
       <div className="mt-auto relative">
         <div
-          className="w-12 h-12 rounded-full bg-(--highlight-color) flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:bg-sky-600 transition-colors"
+          className="w-12 h-12 rounded-full bg-(--highlight-color) flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:bg-sky-600 transition-colors "
           title={session?.user?.name || "Usuário"}
           onClick={() => setShowUserMenu(!showUserMenu)}
         >
@@ -104,7 +104,6 @@ export default function Sidebar() {
         {/* Dropdown Menu */}
         {showUserMenu && (
           <>
-            {/* Overlay para fechar ao clicar fora */}
             <div
               className="fixed inset-0 z-40"
               onClick={() => setShowUserMenu(false)}

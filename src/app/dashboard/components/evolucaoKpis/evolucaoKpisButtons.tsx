@@ -12,9 +12,9 @@ export default function EvolucaoKpisButtons({ setActiveKpi, activeKpi, type, nom
     return(
     <button
                           onClick={() => setActiveKpi(type)}
-                          className={`px-4 py-2 text-sm rounded-3xl transition-colors ${
+                          className={`px-4 py-2 text-sm rounded-3xl transition-colors  ${
                             activeKpi === type
-                              ? "bg-sky-500 text-white"
+                              ? "bg-sky-500 text-white button-shiny"
                               : "bg-slate-700/50 text-slate-300 hover:bg-slate-700"
                           }`}
                         >
