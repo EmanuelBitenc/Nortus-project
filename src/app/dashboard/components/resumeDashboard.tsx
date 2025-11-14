@@ -15,18 +15,25 @@ export default function ResumeDashboard({
   type,
 }: ResumeDashboardProps) {
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700/50 relative">
+    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl py-4 px-4 border border-slate-700/50 relative">
       <div className=" flex flex-col justify-between h-full py-2">
         <p className="text-(--white) text-xs mb-1 font-second-display">
           {name}
         </p>
-        <p className="text-xl xl:text-2xl font-bold text-white mb-1 ">
+        <p className="text-xl xl:text-2xl  xl:font-bold text-white mb-1 ">
           {type === "arpu" ? "R$ " : ""}
 
-          {dashboardData.kpisResume[type].valor.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
+          {type === "arpu" &&
+            dashboardData.kpisResume[type].valor.toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          {type !== "arpu" &&
+            dashboardData.kpisResume[type].valor.toLocaleString("pt-BR", {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            })}
+          {type === "arpu" ? " " : "%"}
         </p>
         <span
           className={`text-xs ${

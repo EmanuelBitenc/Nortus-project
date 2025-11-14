@@ -38,9 +38,9 @@ export default function DashboardPage() {
 
       {/* Grid Principal: 3 colunas x 2 linhas */}
       <div className="max-w-11/12 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  mb-6">
-          {/* Coluna 1-2, Linha 1 - Evolução dos KPI's */}
-          <div className="lg:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-none  gap-6 mb-6">
+          {/* Evolução dos KPI's */}
+          <div className=" lg:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-white">
                 Evolução dos KPI&apos;s
@@ -65,8 +65,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Coluna 3, Linha 1 - Grid interno 2x2 de Cards */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Grid interno 2x2 de Cards */}
+          <div className="grid  grid-cols-2  gap-4  ">
             <ResumeDashboard
               dashboardData={dashboardData}
               name="ARPU"
@@ -91,9 +91,12 @@ export default function DashboardPage() {
               type="churn"
             />
           </div>
+        </div>
 
-          {/* Coluna 1, Linha 2 - Mapa de clientes */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 col-span-2">
+        {/* Grid 2 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Mapa de clientes */}
+          <div className="col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-white">
                 Mapa de clientes por região
@@ -113,7 +116,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Coluna 2, Linha 2 - Mapa de impacto */}
+          {/*  Mapa de impacto */}
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
             <h3 className="text-lg font-semibold text-white mb-4">
               Mapa de impacto por segmento
@@ -149,7 +152,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Coluna 3, Linha 2 - Clientes ativos */}
+        {/* Clientes ativos */}
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
           <h3 className="text-lg font-semibold text-white mb-4">
             Clientes ativos
