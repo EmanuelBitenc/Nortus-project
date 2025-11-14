@@ -6,6 +6,7 @@ import { useDashboardData } from "@/hooks/useDashboard";
 import ResumeDashboard from "./components/resumeDashboard";
 import EvolucaoKpis from "./components/evolucaoKpis/evolucaokpis";
 import ImpactoSegmento from "./components/impactoSegmento/ImpactoSegmento";
+import MapaClientes from "./components/mapaClientes/MapaClientes";
 
 export default function DashboardPage() {
   const { data: dashboardData, isLoading, error } = useDashboardData();
@@ -72,27 +73,9 @@ export default function DashboardPage() {
         </div>
 
         {/* Grid 2 */}
-        <div className="mb-6 grid grid-cols-2 gap-6 lg:grid-cols-3">
+        <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Mapa de clientes */}
-          <div className="card-dashboard col-span-1 lg:col-span-2">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Mapa de clientes por região
-              </h3>
-              <select className="rounded-lg border border-slate-600 bg-slate-700/50 px-3 py-1 text-sm text-slate-300">
-                {dashboardData.activeClients.filters.locations.map(
-                  (location) => (
-                    <option key={location} value={location}>
-                      {location}
-                    </option>
-                  )
-                )}
-              </select>
-            </div>
-            <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-slate-400">
-              <p>Mapa interativo</p>
-            </div>
-          </div>
+          <MapaClientes />
 
           {/*  Mapa de impacto */}
           <ImpactoSegmento dashboardData={dashboardData} />
