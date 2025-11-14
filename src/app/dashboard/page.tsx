@@ -76,7 +76,6 @@ export default function DashboardPage() {
 
         {/* Grid 2 - Mapa e Impacto */}
         <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
-          
           <MapaClientes />
 
           {/* Mapa de impacto */}

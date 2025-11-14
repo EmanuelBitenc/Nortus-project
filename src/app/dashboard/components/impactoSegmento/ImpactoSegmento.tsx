@@ -39,7 +39,9 @@ export default function ImpactoSegmento({
                 className="h-2.5 w-2.5 rounded-full sm:h-3 sm:w-3"
                 style={{ backgroundColor: colors[index] }}
               ></span>
-              <span className="text-[10px] text-slate-300 sm:text-xs">{segmento.nome}</span>
+              <span className="text-[10px] text-slate-300 sm:text-xs">
+                {segmento.nome}
+              </span>
             </div>
           ))}
         </div>

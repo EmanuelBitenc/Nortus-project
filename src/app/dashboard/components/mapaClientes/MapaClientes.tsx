@@ -82,10 +82,19 @@ export default function MapaClientes() {
           Mapa de clientes por região
         </h3>
         <div className="flex flex-wrap gap-2">
-          
-          <SelectMap value={selectedLocation} change={setSelectedLocation} datas={uniqueLocations} label="Todos os locais" />
-<SelectMap value={selectedCategory} change={setSelectedCategory} datas={uniqueCategories} categoryNames={categoryNames} label="Todos os tipos" />
-          
+          <SelectMap
+            value={selectedLocation}
+            change={setSelectedLocation}
+            datas={uniqueLocations}
+            label="Todos os locais"
+          />
+          <SelectMap
+            value={selectedCategory}
+            change={setSelectedCategory}
+            datas={uniqueCategories}
+            categoryNames={categoryNames}
+            label="Todos os tipos"
+          />
         </div>
       </div>
       <div className="h-64 sm:h-72 lg:h-80">
