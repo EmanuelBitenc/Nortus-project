@@ -16,7 +16,7 @@ export default function gestaoTicketsPage() {
         <HeaderPages TitlePage="Gestão de Tickets">
           <button className="button-shiny flex items-center gap-2 rounded-4xl">
             <Plus size={24} color="#FFFFFF" />
-            <span> Novo Ticket</span>
+            <span className="text-[10px]"> Novo Ticket</span>
           </button>
         </HeaderPages>
         <div className="flex h-96 items-center justify-center">
@@ -32,7 +32,7 @@ export default function gestaoTicketsPage() {
         <HeaderPages TitlePage="Gestão de Tickets">
           <button className="button-shiny flex items-center gap-2 rounded-4xl">
             <Plus size={24} color="#FFFFFF" />
-            <span> Novo Ticket</span>
+            <span className="text-[10px]"> Novo Ticket</span>
           </button>
         </HeaderPages>
         <div className="flex h-96 items-center justify-center">
