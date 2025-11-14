@@ -53,13 +53,13 @@ export default function ResumeDashboard({
             <Image
               src={up}
               alt={"icon"}
-              className="absolute bottom-0 right-0 2xl:right-5 w-20 2xl:w-32"
+              className="absolute bottom-0 right-0 2xl:right-5 w-32 lg:w-32"
             />
           ) : (
             <Image
               src={down}
               alt={"icon"}
-              className="absolute bottom-0 right-0 2xl:right-0 w-20 2xl:w-36"
+              className="absolute bottom-0 right-0 2xl:right-0 w-32 lg:w-36"
             />
           )}
         </div>
