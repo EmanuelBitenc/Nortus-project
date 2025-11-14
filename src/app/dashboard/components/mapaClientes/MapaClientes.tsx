@@ -1,9 +1,9 @@
 "use client";
 
+import SelectMap from "@/components/select";
 import { useMapData } from "@/hooks/useMap";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import SelectMap from "./select";
 
 const MapComponent = dynamic(() => import("./MapComponent"), {
   ssr: false,
@@ -83,8 +83,8 @@ export default function MapaClientes() {
         </h3>
         <div className="flex flex-wrap gap-2">
           
-          <SelectMap value={selectedLocation} change={setSelectedLocation} datas={uniqueLocations}  />
-<SelectMap value={selectedCategory} change={setSelectedCategory} datas={uniqueCategories} categoryNames={categoryNames} />
+          <SelectMap value={selectedLocation} change={setSelectedLocation} datas={uniqueLocations} label="Todos os locais" />
+<SelectMap value={selectedCategory} change={setSelectedCategory} datas={uniqueCategories} categoryNames={categoryNames} label="Todos os tipos" />
           
         </div>
       </div>
