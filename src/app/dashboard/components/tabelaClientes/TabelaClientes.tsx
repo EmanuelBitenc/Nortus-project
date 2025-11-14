@@ -63,7 +63,7 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
   };
 
   return (
-    <div className="card-dashboard">
+    <div className="card-board">
       <h3 className="mb-4 text-base font-semibold text-white sm:text-lg">
         Clientes ativos
       </h3>
