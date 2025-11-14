@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-lg: 1400px;
+}
+
 :root {
   --background: #0b1125;
   --foreground: #c2c2c2;
@@ -27,4 +31,8 @@ body {
 
 .font-second-display {
   font-family: var(--font-montserrat), "Segoe UI", Roboto, sans-serif;
+}
+
+.button-shiny {
+  @apply bg-sky-500 px-4 py-2 text-white transition-all duration-300 hover:scale-105 hover:bg-sky-600 hover:shadow-[0_0_20px_rgba(14,165,233,0.6)];
 }

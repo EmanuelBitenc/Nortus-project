@@ -97,8 +97,8 @@ export default function LoginPage() {
     }
   };
   return (
-    <main className="min-h-screen bg-[#071225] text-slate-200 flex items-center justify-center px-6 py-7 2xl:py-10">
-      <div className="w-full max-w-[1200px] flex flex-col lg:flex-row gap-10 items-start">
+    <main className="flex min-h-screen items-center justify-center bg-[#071225] px-6 py-7 text-slate-200 2xl:py-10">
+      <div className="flex w-full max-w-[1200px] flex-col items-start gap-10 lg:flex-row">
         <section className="flex-1 pl-6 lg:pl-12">
           <div className="mb-10">
             <Image
@@ -111,14 +111,14 @@ export default function LoginPage() {
           </div>
 
           <div className="max-w-[680px]">
-            <h1 className="text-4xl text-sky-300 mb-3 font-display">Login</h1>
-            <p className="text-slate-400 mb-8">
+            <h1 className="font-display mb-3 text-4xl text-sky-300">Login</h1>
+            <p className="mb-8 text-slate-400">
               Entre com suas credenciais para acessar a sua conta.
             </p>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               {errors.general && (
-                <div className="rounded-lg bg-red-500/10 border border-red-500/50 px-4 py-3 text-red-400">
+                <div className="rounded-lg border border-red-500/50 bg-red-500/10 px-4 py-3 text-red-400">
                   {errors.general}
                 </div>
               )}
@@ -132,7 +132,7 @@ export default function LoginPage() {
                   onBlur={handleEmailBlur}
                   className={`w-full rounded-2xl border-2 ${
                     errors.email ? "border-red-500" : "border-gray-500"
-                  } bg-transparent px-5 py-4 placeholder-gray-200 focus:outline-none focus:ring-2 ${
+                  } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${
                     errors.email ? "focus:ring-red-500" : "focus:ring-sky-500"
                   }`}
                   disabled={isLoading}
@@ -157,7 +157,7 @@ export default function LoginPage() {
                     onChange={handlePasswordChange}
                     className={`w-full rounded-2xl border-2 ${
                       errors.password ? "border-red-500" : "border-gray-500"
-                    } bg-transparent px-5 py-4 placeholder-gray-200 focus:outline-none focus:ring-2 ${
+                    } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${
                       errors.password
                         ? "focus:ring-red-500"
                         : "focus:ring-sky-500"
@@ -170,7 +170,7 @@ export default function LoginPage() {
                       showPassword ? "Ocultar senha" : "Mostrar senha"
                     }
                     onClick={() => setShowPassword((s) => !s)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-xl text-slate-300 cursor-pointer disabled:opacity-50"
+                    className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-xl text-slate-300 disabled:opacity-50"
                     disabled={isLoading}
                   >
                     {showPassword ? (
@@ -188,15 +188,15 @@ export default function LoginPage() {
               </div>
 
               <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-3 ">
+                <label className="flex items-center gap-3">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-gray-500 bg-transparent"
+                    className="h-4 w-4 rounded border-gray-500 bg-transparent"
                     disabled={isLoading}
                   />
                   <span className="text-slate-300">Lembrar meu usuário</span>
                 </label>
-                <a href="#" className="text-sky-400 hover:underline ">
+                <a href="#" className="text-sky-400 hover:underline">
                   Esqueci minha senha
                 </a>
               </div>
@@ -204,7 +204,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="mt-4 w-full rounded-full bg-sky-500 hover:bg-sky-600 py-3 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-4 w-full rounded-full bg-sky-500 py-3 font-medium text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isLoading ? "Entrando..." : "Entrar"}
               </button>
@@ -212,7 +212,7 @@ export default function LoginPage() {
           </div>
         </section>
 
-        <aside className="  hidden lg:block lg:w-[620px] shrink-0 relative">
+        <aside className="relative hidden shrink-0 lg:block lg:w-[620px]">
           <AsideImg />
         </aside>
       </div>

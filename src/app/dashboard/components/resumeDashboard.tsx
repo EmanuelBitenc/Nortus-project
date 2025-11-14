@@ -15,18 +15,25 @@ export default function ResumeDashboard({
   type,
 }: ResumeDashboardProps) {
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700/50 relative">
-      <div className=" flex flex-col justify-between h-full py-2">
-        <p className="text-(--white) text-xs mb-1 font-second-display">
+    <div className="relative rounded-xl border border-slate-700/50 bg-slate-800/50 px-4 py-4 backdrop-blur-sm">
+      <div className="flex h-full flex-col justify-between py-2">
+        <p className="font-second-display mb-1 text-xs text-(--white)">
           {name}
         </p>
-        <p className="text-xl xl:text-2xl font-bold text-white mb-1 ">
+        <p className="mb-1 text-xl text-white xl:text-2xl xl:font-bold">
           {type === "arpu" ? "R$ " : ""}
 
-          {dashboardData.kpisResume[type].valor.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
+          {type === "arpu" &&
+            dashboardData.kpisResume[type].valor.toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          {type !== "arpu" &&
+            dashboardData.kpisResume[type].valor.toLocaleString("pt-BR", {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            })}
+          {type === "arpu" ? " " : "%"}
         </p>
         <span
           className={`text-xs ${
@@ -46,13 +53,13 @@ export default function ResumeDashboard({
             <Image
               src={up}
               alt={"icon"}
-              className="absolute bottom-0 right-0 2xl:right-5 w-20 2xl:w-32"
+              className="absolute right-0 bottom-0 w-32 lg:w-32 2xl:right-5"
             />
           ) : (
             <Image
               src={down}
               alt={"icon"}
-              className="absolute bottom-0 right-0 2xl:right-0 w-20 2xl:w-36"
+              className="absolute right-0 bottom-0 w-32 lg:w-36 2xl:right-0"
             />
           )}
         </div>
