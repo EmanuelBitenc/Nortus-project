@@ -4,9 +4,16 @@ import DashboardLayout from "@/components/page-layout";
 import HeaderPages from "@/components/header-pages";
 import { useDashboardData } from "@/hooks/useDashboard";
 import ResumeDashboard from "./components/resumeDashboard";
+import { useState } from "react";
+import ArpuChart from "./components/evolucaoKpis/grafico/ArpuChart";
+import ConversionChart from "./components/evolucaoKpis/grafico/ConversionChart";
+import ChurnChart from "./components/evolucaoKpis/grafico/ChurnChart";
+import RetentionChart from "./components/evolucaoKpis/grafico/RetentionChart";
+import EvolucaoKpis from "./components/evolucaoKpis/evolucaokpis";
 
 export default function DashboardPage() {
   const { data: dashboardData, isLoading, error } = useDashboardData();
+
 
   if (isLoading) {
     return (
@@ -36,34 +43,12 @@ export default function DashboardPage() {
     <DashboardLayout>
       <HeaderPages TitlePage="Dashboard" />
 
-      {/* Grid Principal: 3 colunas x 2 linhas */}
+      {/* Grid Principal: 3 colunas*/}
       <div className="max-w-11/12 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-none  gap-6 mb-6">
           {/* Evolução dos KPI's */}
-          <div className=" lg:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-white">
-                Evolução dos KPI&apos;s
-              </h2>
-              <div className="flex gap-2">
-                <button className="px-4 py-2 text-sm rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-700">
-                  Retenção
-                </button>
-                <button className="px-4 py-2 text-sm rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-700">
-                  Conversão
-                </button>
-                <button className="px-4 py-2 text-sm rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-700">
-                  Churn
-                </button>
-                <button className="px-4 py-2 text-sm rounded-lg bg-sky-500 text-white">
-                  ARPU
-                </button>
-              </div>
-            </div>
-            <div className="h-64 flex items-center justify-center text-slate-400">
-              <p>Gráfico de Evolução dos KPI&apos;s</p>
-            </div>
-          </div>
+          
+        <EvolucaoKpis dashboardData={dashboardData} />
 
           {/* Grid interno 2x2 de Cards */}
           <div className="grid  grid-cols-2  gap-4  ">
