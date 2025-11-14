@@ -28,7 +28,6 @@ export default function LoginPage() {
     const value = e.target.value;
     setFormData((prev) => ({ ...prev, email: value }));
 
-    // Clear error when user starts typing
     if (errors.email) {
       setErrors((prev) => ({ ...prev, email: undefined }));
     }
@@ -38,7 +37,6 @@ export default function LoginPage() {
     const value = e.target.value;
     setFormData((prev) => ({ ...prev, password: value }));
 
-    // Clear error when user starts typing
     if (errors.password) {
       setErrors((prev) => ({ ...prev, password: undefined }));
     }
@@ -61,7 +59,6 @@ export default function LoginPage() {
     e.preventDefault();
     setErrors({});
 
-    // Validate with Zod
     try {
       loginSchema.parse(formData);
     } catch (error) {
