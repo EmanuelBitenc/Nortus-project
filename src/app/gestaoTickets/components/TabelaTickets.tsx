@@ -16,7 +16,7 @@ function getOptions<T extends keyof Ticket>(tickets: Ticket[], key: T) {
     return Array.from(
         new Set(
             tickets
-                .map((t) => t[key])
+                .map((ticket) => ticket[key])
                 .filter(Boolean)
         )
     );

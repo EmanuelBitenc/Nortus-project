@@ -24,7 +24,7 @@ export default function FiltersTabelaCliente({
     } = useTabelaClientesStore();
     return (
         <div className="mb-4 flex justify-between gap-2 sm:items-center xl:gap-10">
-            {/* Busca */}
+
             <div className="relative max-w-full flex-1">
                 <svg
                     className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-(--text-secondary-color)"
@@ -48,7 +48,7 @@ export default function FiltersTabelaCliente({
                 />
             </div>
             <div className="flex flex-wrap gap-2 xl:gap-8">
-                {/* Filtro Status */}
+
 
                 <SelectMap
                     value={statusFilter}
@@ -57,7 +57,7 @@ export default function FiltersTabelaCliente({
                     label="Todos os status"
                 />
 
-                {/* Filtro Tipo */}
+
                 <SelectMap
                     value={tipoFilter}
                     change={setTipoFilter}
@@ -65,7 +65,7 @@ export default function FiltersTabelaCliente({
                     label="Todos os tipos"
                 />
 
-                {/* Filtro Local */}
+
                 <SelectMap
                     value={localFilter}
                     change={setLocalFilter}
