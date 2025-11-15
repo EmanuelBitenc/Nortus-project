@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { GestaoTicketsData, Ticket } from "@/services/gestaoTicket.service";
 import { useTabelaTicketsStore } from "@/stores/useTabelaTicketsStore";
+import { useTicketsStore } from "@/stores/useTicketsStore";
 import FiltersTickets from "./FiltersTickets";
 import { Edit, ChevronRight } from "@deemlol/next-icons";
 import Th from "@/components/Table/table";
@@ -25,18 +26,27 @@ function getOptions<T extends keyof Ticket>(tickets: Ticket[], key: T) {
 export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
     const { search, statusFilter, priorityFilter, responsibleFilter, currentPage, setCurrentPage } =
         useTabelaTicketsStore();
+    const newTickets = useTicketsStore((state) => state.tickets);
 
     const { tickets } = ticketsData;
     const items_por_pagina = 7;
 
+    // Combinar tickets da API com novos tickets locais
+    const allTickets = useMemo(() => {
+        const apiTickets = tickets;
+        const localTickets = newTickets; // Já estão no formato correto
 
-    const statusOptions = useMemo(() => getOptions(tickets, "status"), [tickets]);
-    const priorityOptions = useMemo(() => getOptions(tickets, "priority"), [tickets]);
-    const responsibleOptions = useMemo(() => getOptions(tickets, "responsible"), [tickets]);
+        return [...apiTickets, ...localTickets];
+    }, [tickets, newTickets]);
+
+
+    const statusOptions = useMemo(() => getOptions(allTickets, "status"), [allTickets]);
+    const priorityOptions = useMemo(() => getOptions(allTickets, "priority"), [allTickets]);
+    const responsibleOptions = useMemo(() => getOptions(allTickets, "responsible"), [allTickets]);
 
 
     const ticketsFiltrados = useMemo(() => {
-        return tickets.filter((ticket) => {
+        return allTickets.filter((ticket) => {
             const matchSearch =
                 search === "" ||
                 ticket.id?.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,7 +62,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
 
             return matchSearch && matchStatus && matchPriority && matchResponsible;
         });
-    }, [tickets, search, statusFilter, priorityFilter, responsibleFilter]);
+    }, [allTickets, search, statusFilter, priorityFilter, responsibleFilter]);
 
 
     const totalPages = Math.ceil(ticketsFiltrados.length / items_por_pagina);

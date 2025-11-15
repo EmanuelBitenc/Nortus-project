@@ -5,6 +5,7 @@ import { novoTicketSchema, NovoTicketFormData } from "./schemaNovoTicket";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputModal from "./inputModal";
+import { useTicketsStore } from "@/stores/useTicketsStore";
 
 interface ModalNovoTicketProps {
     isOpen: boolean;
@@ -15,6 +16,8 @@ export default function ModalNovoTicket({
     isOpen,
     onClose,
 }: ModalNovoTicketProps) {
+    const addTicket = useTicketsStore((state) => state.addTicket);
+
     const {
         register,
         handleSubmit,
@@ -32,7 +35,13 @@ export default function ModalNovoTicket({
     });
 
     const onSubmit = (data: NovoTicketFormData) => {
-        console.log("Novo ticket:", data);
+        addTicket({
+            client: data.nomeCliente,
+            email: data.email,
+            priority: data.prioridade as "Urgente" | "Média" | "Baixa",
+            responsible: data.responsavel,
+            subject: data.assunto,
+        });
 
         reset();
         onClose();
