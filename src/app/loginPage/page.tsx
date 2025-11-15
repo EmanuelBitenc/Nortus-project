@@ -3,95 +3,67 @@ import "./style.css";
 import Image from "next/image";
 import NortusTextLogo from "../../../public/imgs/NortusTextLogo.svg";
 import { Eye, EyeOff } from "@deemlol/next-icons";
-import { useState, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import AsideImg from "./components/aside-img";
 import { loginSchema, type LoginFormData } from "@/utils/validation";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState<{
-    email?: string;
-    password?: string;
-    general?: string;
-  }>({});
+  const [lembrarUsuario, setLembrarUsuario] = useState(false);
+  const [generalError, setGeneralError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setFormData((prev) => ({ ...prev, email: value }));
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-    if (errors.email) {
-      setErrors((prev) => ({ ...prev, email: undefined }));
+  // Carregar email salvo
+  useEffect(() => {
+    const emailSalvo = localStorage.getItem("lembrarEmail");
+    if (emailSalvo) {
+      setValue("email", emailSalvo);
+      setLembrarUsuario(true);
     }
-  };
+  }, [setValue]);
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setFormData((prev) => ({ ...prev, password: value }));
-
-    if (errors.password) {
-      setErrors((prev) => ({ ...prev, password: undefined }));
-    }
-  };
-
-  const handleEmailBlur = () => {
-    if (!formData.email) return;
-
-    try {
-      loginSchema.shape.email.parse(formData.email);
-      setErrors((prev) => ({ ...prev, email: undefined }));
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        setErrors((prev) => ({ ...prev, email: error.issues[0].message }));
-      }
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      loginSchema.parse(formData);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErrors: { email?: string; password?: string } = {};
-        error.issues.forEach((issue) => {
-          const field = issue.path[0] as "email" | "password";
-          if (!fieldErrors[field]) {
-            fieldErrors[field] = issue.message;
-          }
-        });
-        setErrors(fieldErrors);
-        return;
-      }
-    }
-
+  const onSubmit = async (data: LoginFormData) => {
+    setGeneralError("");
     setIsLoading(true);
 
     try {
       const result = await signIn("credentials", {
-        email: formData.email,
-        password: formData.password,
+        email: data.email,
+        password: data.password,
         redirect: false,
       });
 
       if (result?.error) {
-        setErrors({ general: "Credenciais inválidas" });
+        setGeneralError("Credenciais inválidas");
       } else if (result?.ok) {
+        // Salvar ou remover email do localStorage
+        if (lembrarUsuario) {
+          localStorage.setItem("lembrarEmail", data.email);
+        } else {
+          localStorage.removeItem("lembrarEmail");
+        }
         router.push("/");
       }
-    } catch (error) {
-      console.error("Login error:", error);
-      setErrors({ general: "Erro ao fazer login. Tente novamente." });
+    } catch {
+      setGeneralError("Erro ao fazer login. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -116,10 +88,10 @@ export default function LoginPage() {
               Entre com suas credenciais para acessar a sua conta.
             </p>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              {errors.general && (
-                <div className="rounded-lg border border-red-500/50 bg-red-500/10 px-4 py-3 text-red-400">
-                  {errors.general}
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              {generalError && (
+                <div className="rounded-lg border border-(--danger-color)/50 bg-red-500/10 px-4 py-3 text-(--danger-color)">
+                  {generalError}
                 </div>
               )}
 
@@ -127,17 +99,15 @@ export default function LoginPage() {
                 <input
                   type="email"
                   placeholder="Usuário*"
-                  value={formData.email}
-                  onChange={handleEmailChange}
-                  onBlur={handleEmailBlur}
-                  className={`w-full rounded-2xl border-2 ${errors.email ? "border-red-500" : "border-gray-500"
+                  {...register("email")}
+                  className={`w-full rounded-2xl border-2 ${errors.email ? "border-(--danger-color)" : "border-gray-500"
                     } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${errors.email ? "focus:ring-red-500" : "focus:ring-sky-500"
                     }`}
                   disabled={isLoading}
                 />
                 {errors.email ? (
-                  <span className="pl-5 text-sm text-red-400">
-                    {errors.email}
+                  <span className="pl-5 text-sm text-(--danger-color)">
+                    {errors.email.message}
                   </span>
                 ) : (
                   <span className="pl-5 text-sm text-gray-300">
@@ -151,9 +121,8 @@ export default function LoginPage() {
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="Senha*"
-                    value={formData.password}
-                    onChange={handlePasswordChange}
-                    className={`w-full rounded-2xl border-2 ${errors.password ? "border-red-500" : "border-gray-500"
+                    {...register("password")}
+                    className={`w-full rounded-2xl border-2 ${errors.password ? "border-(--danger-color)" : "border-gray-500"
                       } bg-transparent px-5 py-4 placeholder-gray-200 focus:ring-2 focus:outline-none ${errors.password
                         ? "focus:ring-red-500"
                         : "focus:ring-sky-500"
@@ -165,7 +134,7 @@ export default function LoginPage() {
                     aria-label={
                       showPassword ? "Ocultar senha" : "Mostrar senha"
                     }
-                    onClick={() => setShowPassword((mostrar) => !mostrar)}
+                    onClick={() => setShowPassword((s) => !s)}
                     className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-xl text-slate-300 disabled:opacity-50"
                     disabled={isLoading}
                   >
@@ -177,8 +146,8 @@ export default function LoginPage() {
                   </button>
                 </div>
                 {errors.password && (
-                  <span className="pl-5 text-sm text-red-400">
-                    {errors.password}
+                  <span className="pl-5 text-sm text-(--danger-color)">
+                    {errors.password.message}
                   </span>
                 )}
               </div>
@@ -187,7 +156,8 @@ export default function LoginPage() {
                 <label className="flex items-center gap-3">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-500 bg-transparent"
+                    checked={lembrarUsuario}
+                    onChange={(e) => setLembrarUsuario(e.target.checked)}
                     disabled={isLoading}
                   />
                   <span className="text-slate-300">Lembrar meu usuário</span>
@@ -200,7 +170,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="mt-4 w-full rounded-full bg-sky-500 py-3 font-medium text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-4 w-full rounded-full bg-sky-500 py-3 font-medium text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
               >
                 {isLoading ? "Entrando..." : "Entrar"}
               </button>
