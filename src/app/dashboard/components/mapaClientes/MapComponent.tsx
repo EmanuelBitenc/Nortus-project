@@ -1,9 +1,7 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import { useEffect, useRef, useState } from "react";
 import { Location } from "@/services/map.service";
-import { useEffect, useState, useMemo } from "react";
 
 interface MapComponentProps {
   center: [number, number];
@@ -11,7 +9,13 @@ interface MapComponentProps {
   locations: Location[];
 }
 
-const getIconSVG = (iconName: string): string => {
+declare global {
+  interface Window {
+    mapboxgl: any;
+  }
+}
+
+const getIconSVG = (iconName: string, color: string): string => {
   const icons: Record<string, string> = {
     carIcon:
       '<path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>',
@@ -23,10 +27,20 @@ const getIconSVG = (iconName: string): string => {
     heritageIcon:
       '<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>',
   };
-  return icons[iconName] || icons.homeIcon;
+
+  const iconPath = icons[iconName] || icons.homeIcon;
+
+  return `
+    <svg width="56" height="56" viewBox="0 0 56 56">
+      <circle cx="28" cy="28" r="24" fill="${color}" stroke="white" stroke-width="4" filter="drop-shadow(0px 4px 8px rgba(0,0,0,0.4))"/>
+      <svg x="14" y="14" width="28" height="28" viewBox="0 0 24 24" fill="white">
+        ${iconPath}
+      </svg>
+    </svg>
+  `;
 };
 
-const createCustomIcon = (category: string, color: string) => {
+const getIconName = (category: string): string => {
   const iconMap: Record<string, string> = {
     tourism: "beachIcon",
     sports: "peopleIcon",
@@ -34,38 +48,7 @@ const createCustomIcon = (category: string, color: string) => {
     education: "homeIcon",
     heritage: "heritageIcon",
   };
-
-  const iconName = iconMap[category] || "homeIcon";
-
-  return L.divIcon({
-    className: "custom-icon",
-    html: `
-      <div style="
-        position: relative;
-        width: 56px;
-        height: 56px;
-      ">
-        <div style="
-          background: ${color};
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-          border: 4px solid white;
-        ">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-            ${getIconSVG(iconName)}
-          </svg>
-        </div>
-      </div>
-    `,
-    iconSize: [56, 56],
-    iconAnchor: [28, 28],
-    popupAnchor: [0, -28],
-  });
+  return iconMap[category] || "homeIcon";
 };
 
 export default function MapComponent({
@@ -73,59 +56,94 @@ export default function MapComponent({
   zoom,
   locations,
 }: MapComponentProps) {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<any>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const markersRef = useRef<any[]>([]);
 
   useEffect(() => {
+    if (typeof window === "undefined" || !window.mapboxgl) return;
+    if (!mapContainer.current || map.current) return;
+
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+    if (!token) {
+      console.error("Mapbox, token não encontrado");
+      return;
+    }
+
+    window.mapboxgl.accessToken = token;
+
+    map.current = new window.mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/dark-v11",
+      center: [center[1], center[0]],
+      zoom: zoom - 1,
+    });
+
+    map.current.addControl(new window.mapboxgl.NavigationControl(), "top-right");
     setIsMounted(true);
 
     return () => {
-      setIsMounted(false);
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
     };
-  }, []);
+  }, [center, zoom]);
 
-  const markers = useMemo(() => {
-    return locations.map((location) => {
-      const icon = createCustomIcon(location.category, location.color);
-      return { location, icon };
+  useEffect(() => {
+    if (!map.current || !isMounted || typeof window === "undefined" || !window.mapboxgl) return;
+
+    markersRef.current.forEach((marker) => marker.remove());
+    markersRef.current = [];
+
+    locations.forEach((location) => {
+      const iconName = getIconName(location.category);
+      const iconSVG = getIconSVG(iconName, location.color);
+
+      const el = document.createElement("div");
+      el.innerHTML = iconSVG;
+      el.style.cursor = "pointer";
+      el.style.width = "56px";
+      el.style.height = "56px";
+
+      const popup = new window.mapboxgl.Popup({ offset: 25 }).setHTML(`
+        <div style="padding: 8px; min-width: 200px;">
+          <h3 style="font-weight: 600; margin-bottom: 4px; color: #1e293b;">${location.name}</h3>
+          <p style="font-size: 12px; margin-bottom: 2px; color: #475569;">${location.description}</p>
+          <p style="font-size: 12px; color: #94a3b8;">${location.address}</p>
+        </div>
+      `);
+
+      const marker = new window.mapboxgl.Marker(el)
+        .setLngLat([location.coordinates[1], location.coordinates[0]])
+        .setPopup(popup)
+        .addTo(map.current);
+
+      markersRef.current.push(marker);
     });
-  }, [locations]);
 
-  if (!isMounted) {
+    if (locations.length > 0 && window.mapboxgl.LngLatBounds) {
+      const bounds = new window.mapboxgl.LngLatBounds();
+      locations.forEach((location) => {
+        bounds.extend([location.coordinates[1], location.coordinates[0]]);
+      });
+      map.current.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+    }
+  }, [locations, isMounted]);
+
+  if (typeof window === "undefined" || !window.mapboxgl) {
     return (
       <div className="flex h-full items-center justify-center rounded-lg bg-slate-900/30">
         <div className="text-(--text-secondary-color)">Carregando mapa...</div>
       </div>
     );
   }
-
   return (
-    <div className="h-full w-full overflow-hidden rounded-lg">
-      <MapContainer
-        key={`map-${center[0]}-${center[1]}-${zoom}`}
-        center={center}
-        zoom={zoom}
-        style={{ height: "100%", width: "100%", borderRadius: "0.5rem" }}
-        scrollWheelZoom={true}
-        zoomControl={true}
-        whenReady={() => { }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
-        />
-        {markers.map(({ location, icon }) => (
-          <Marker key={location.id} position={location.coordinates} icon={icon}>
-            <Popup>
-              <div className="flex flex-col">
-                <h3 className="font-semibold">{location.name}</h3>
-                <p className="text-xs">{location.description}</p>
-                <p className="text-xs text-slate-500">{location.address}</p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-    </div>
+    <div
+      ref={mapContainer}
+      className="h-full w-full overflow-hidden rounded-lg"
+      style={{ minHeight: "300px" }}
+    />
   );
 }

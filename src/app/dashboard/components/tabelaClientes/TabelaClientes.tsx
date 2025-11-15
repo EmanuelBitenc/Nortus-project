@@ -14,7 +14,7 @@ function getOptions<C extends keyof Client>(clientes: Client[], key: C) {
   return Array.from(
     new Set(
       clientes
-        .map((c) => c[key])
+        .map((cliente) => cliente[key])
         .filter(Boolean)
     )
   );

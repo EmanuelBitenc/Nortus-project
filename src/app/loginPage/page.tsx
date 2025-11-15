@@ -165,7 +165,7 @@ export default function LoginPage() {
                     aria-label={
                       showPassword ? "Ocultar senha" : "Mostrar senha"
                     }
-                    onClick={() => setShowPassword((s) => !s)}
+                    onClick={() => setShowPassword((mostrar) => !mostrar)}
                     className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-xl text-slate-300 disabled:opacity-50"
                     disabled={isLoading}
                   >
