@@ -2,6 +2,7 @@
 
 :root {
   --background: #0b1125;
+  --background-secondary: #171d30;
   --foreground: #c2c2c2;
   --white: #ffffff;
   --black: #000;
@@ -10,11 +11,11 @@
   --font-second-display: var(--font-montserrat);
   --highlight-color: #1876d2;
   --secondary-color: #101828;
-  --pendente-color: #D2B843;
-  --ativo-color: #43D2CB;
-  --concluido-color: #34A853;
---danger-color: #EA4335;
---text-secondary-color:#90a1b9;
+  --pendente-color: #d2b843;
+  --ativo-color: #43d2cb;
+  --concluido-color: #34a853;
+  --danger-color: #ea4335;
+  --text-secondary-color: #90a1b9;
 }
 
 body {
@@ -41,6 +42,6 @@ body {
   @apply rounded-xl border border-slate-700/50 bg-slate-800/50 p-4 backdrop-blur-sm sm:p-5 lg:p-6;
 }
 
-.buttons-pagination{
+.buttons-pagination {
   @apply rounded px-2 py-1 text-(--text-secondary-color) transition-colors hover:text-white disabled:cursor-not-allowed disabled:opacity-50;
 }
