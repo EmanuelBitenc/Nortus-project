@@ -24,8 +24,7 @@ export default function FiltersTickets({
     } = useTabelaTicketsStore();
 
     return (
-        <div className="mb-4 flex justify-between gap-2 sm:items-center xl:gap-10">
-            {/* Busca */}
+        <div className="mb-4 flex justify-between gap-2 sm:items-center xl:gap-5">
             <div className="relative max-w-full flex-1">
                 <svg
                     className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--text-secondary-color)"
@@ -48,8 +47,7 @@ export default function FiltersTickets({
                     className="w-full rounded-full border border-slate-600 bg-(--background) py-2 pl-10 pr-4 text-sm text-slate-300 placeholder-slate-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
                 />
             </div>
-            <div className="flex flex-wrap gap-2 xl:gap-8">
-                {/* Filtro Status */}
+            <div className="flex flex-wrap gap-2 xl:gap-5">
                 <Select
                     value={statusFilter}
                     change={setStatusFilter}
@@ -57,7 +55,6 @@ export default function FiltersTickets({
                     label="Todos os status"
                 />
 
-                {/* Filtro Prioridade */}
                 <Select
                     value={priorityFilter}
                     change={setPriorityFilter}
@@ -65,7 +62,6 @@ export default function FiltersTickets({
                     label="Todas as prioridades"
                 />
 
-                {/* Filtro Responsável */}
                 <Select
                     value={responsibleFilter}
                     change={setResponsibleFilter}

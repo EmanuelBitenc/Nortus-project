@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { GestaoTicketsData, Ticket } from "@/services/gestaoTicket.service";
 import { useTabelaTicketsStore } from "@/stores/useTabelaTicketsStore";
+import { useTicketsStore } from "@/stores/useTicketsStore";
 import FiltersTickets from "./FiltersTickets";
 import { Edit, ChevronRight } from "@deemlol/next-icons";
 import Th from "@/components/Table/table";
@@ -25,18 +26,27 @@ function getOptions<T extends keyof Ticket>(tickets: Ticket[], key: T) {
 export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
     const { search, statusFilter, priorityFilter, responsibleFilter, currentPage, setCurrentPage } =
         useTabelaTicketsStore();
+    const newTickets = useTicketsStore((state) => state.tickets);
 
     const { tickets } = ticketsData;
     const items_por_pagina = 7;
 
+    // Combinar tickets da API com novos tickets locais
+    const allTickets = useMemo(() => {
+        const apiTickets = tickets;
+        const localTickets = newTickets; // Já estão no formato correto
 
-    const statusOptions = useMemo(() => getOptions(tickets, "status"), [tickets]);
-    const priorityOptions = useMemo(() => getOptions(tickets, "priority"), [tickets]);
-    const responsibleOptions = useMemo(() => getOptions(tickets, "responsible"), [tickets]);
+        return [...apiTickets, ...localTickets];
+    }, [tickets, newTickets]);
+
+
+    const statusOptions = useMemo(() => getOptions(allTickets, "status"), [allTickets]);
+    const priorityOptions = useMemo(() => getOptions(allTickets, "priority"), [allTickets]);
+    const responsibleOptions = useMemo(() => getOptions(allTickets, "responsible"), [allTickets]);
 
 
     const ticketsFiltrados = useMemo(() => {
-        return tickets.filter((ticket) => {
+        return allTickets.filter((ticket) => {
             const matchSearch =
                 search === "" ||
                 ticket.id?.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,7 +62,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
 
             return matchSearch && matchStatus && matchPriority && matchResponsible;
         });
-    }, [tickets, search, statusFilter, priorityFilter, responsibleFilter]);
+    }, [allTickets, search, statusFilter, priorityFilter, responsibleFilter]);
 
 
     const totalPages = Math.ceil(ticketsFiltrados.length / items_por_pagina);
@@ -101,7 +111,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
             <div className="min-h-[400px] overflow-x-auto">
                 <table className="w-full min-w-full">
                     <thead>
-                        <tr className="border-b border-slate-700">
+                        <tr className="border-b border-slate-700 ">
                             <Th label="ID" />
                             <Th label="Prioridade" />
                             <Th label="Cliente" />
@@ -127,15 +137,20 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
                                     key={ticket.id}
                                     className="transition-colors hover:bg-slate-700/20"
                                 >
-                                    <td className="py-3 text-sm text-white">{ticket.id}</td>
-                                    <td className="py-3">
+                                    <td className="px-3 py-3 text-sm text-white">{ticket.id}</td>
+                                    <td className="px-3 py-3">
                                         <span
-                                            className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${getPriorityColor(ticket.priority)}`}
+                                            className={`inline-block rounded-full px-3 py-1 text-xs font-medium  ${ticket.priority === "Urgente"
+                                                ? "xl:bg-(--danger-color) xl:text-white text-(--danger-color)"
+                                                : ticket.priority === "Média"
+                                                    ? "xl:bg-[#B5EDFF] xl:text-black text-cyan-500"
+                                                    : "xl:bg-[#E0F7FF] xl:text-black text-white"
+                                                }`}
                                         >
                                             {ticket.priority}
                                         </span>
                                     </td>
-                                    <td className="py-3">
+                                    <td className="px-3 py-3">
                                         <div className="flex flex-col">
                                             <span className="text-sm font-medium text-white">
                                                 {ticket.client}
@@ -145,33 +160,34 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
                                             </span>
                                         </div>
                                     </td>
-                                    <td className="py-3 text-sm text-white max-w-[200px]">{ticket.subject}</td>
-                                    <td className="py-3">
+                                    <td className="px-3 py-3 text-sm text-white xl:max-w-[200px]">{ticket.subject}</td>
+                                    <td className="px-3 py-3">
                                         <span
-                                            className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${getStatusColor(ticket.status)}`}
+                                            className={`inline-block text-center whitespace-nowrap rounded-full px-2  py-1 text-xs font-medium ${ticket.status === "Aberto"
+                                                ? "xl:bg-(--ativo-color)  xl:text-black text-cyan-500"
+                                                : ticket.status === "Em andamento"
+                                                    ? "xl:bg-(--pendente-color) xl:text-black text-yellow-500"
+                                                    : "xl:bg-green-500/20 xl:text-white text-green-500"
+                                                }`}
                                         >
                                             {ticket.status}
                                         </span>
                                     </td>
-                                    <td className="py-3 text-sm text-white">
-                                        {ticket.createdAt}
-                                    </td>
-                                    <td className="py-3 text-sm text-white">
+                                    <td className="px-3 py-3 text-sm text-white">{ticket.createdAt}</td>
+                                    <td className="px-3 py-3 text-sm text-white">
                                         {ticket.responsible}
                                     </td>
-                                    <td className="py-3">
-
-                                        <button className="text-white font-light transition-colors hover:text-sky-300 flex items-center gap-2">
-
-                                            <span className="ml-1 text-xs">Editar</span> <Edit size={16} className="text-sky-300" />
-                                        </button>
-                                    </td>
-                                    <td className="py-3">
-                                        <button className=" text-white transition-colors hover:text-sky-300">
-                                            <span className="text-xs font-light ">Ver</span>
-                                            <ChevronRight size={16} className="inline text-sky-300" />
-                                        </button>
-
+                                    <td className="px-3 py-3">
+                                        <div className="flex flex-col lg:flex-row gap-2 xl:flex-row xl:items-center">
+                                            <button className="flex items-center gap-2 font-light text-white transition-colors hover:text-sky-300">
+                                                <span className="text-xs">Editar</span>
+                                                <Edit size={16} className="text-sky-300" />
+                                            </button>
+                                            <button className="flex items-center gap-1 text-white transition-colors hover:text-sky-300">
+                                                <span className="text-xs font-light">Ver</span>
+                                                <ChevronRight size={16} className="text-sky-300" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
