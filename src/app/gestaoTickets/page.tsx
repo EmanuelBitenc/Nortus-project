@@ -63,7 +63,7 @@ export default function gestaoTicketsPage() {
         </button>
       </HeaderPages>
 
-      <div className="mx-auto mb-20 w-full xl:w-11/12 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mb-20 w-11/12 px-4 sm:px-6 lg:px-8">
         <div className="mb-6 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
           <ResumoTickets ticketsData={ticketsData} />
         </div>

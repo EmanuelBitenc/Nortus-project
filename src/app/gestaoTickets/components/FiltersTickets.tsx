@@ -47,7 +47,7 @@ export default function FiltersTickets({
                     className="w-full rounded-full border border-slate-600 bg-(--background) py-2 pl-10 pr-4 text-sm text-slate-300 placeholder-slate-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
                 />
             </div>
-            <div className="flex flex-wrap gap-2 xl:gap-5">
+            <div className="flex flex-wrap gap-2 xl:gap-3">
                 <Select
                     value={statusFilter}
                     change={setStatusFilter}

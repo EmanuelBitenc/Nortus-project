@@ -23,7 +23,7 @@ export default function FiltersTabelaCliente({
         setLocalFilter,
     } = useTabelaClientesStore();
     return (
-        <div className="mb-4 flex justify-between gap-2 sm:items-center xl:gap-10">
+        <div className="mb-4 flex justify-between gap-2 sm:items-center xl:gap-5">
 
             <div className="relative max-w-full flex-1">
                 <svg
@@ -47,7 +47,7 @@ export default function FiltersTabelaCliente({
                     className="w-full rounded-full border border-slate-600 bg-(--background) py-2 pr-4 pl-10 text-sm text-slate-300 placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-none"
                 />
             </div>
-            <div className="flex flex-wrap gap-2 xl:gap-8">
+            <div className="flex flex-wrap gap-2 xl:gap-3">
 
 
                 <SelectMap
