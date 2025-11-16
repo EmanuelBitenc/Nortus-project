@@ -5,11 +5,11 @@ import NortusTextLogo from "../../../public/imgs/NortusTextLogo.svg";
 import { Eye, EyeOff } from "@deemlol/next-icons";
 import { useState, useEffect } from "react";
 import AsideImg from "./components/aside-img";
-import { loginSchema, type LoginFormData } from "@/utils/validation";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginFormData, loginSchema } from "./schemaLogin";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,13 +25,14 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    mode: "onBlur",
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  // Carregar email salvo
+
   useEffect(() => {
     const emailSalvo = localStorage.getItem("lembrarEmail");
     if (emailSalvo) {
@@ -43,7 +44,6 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setGeneralError("");
     setIsLoading(true);
-
     try {
       const result = await signIn("credentials", {
         email: data.email,
@@ -54,7 +54,7 @@ export default function LoginPage() {
       if (result?.error) {
         setGeneralError("Credenciais inválidas");
       } else if (result?.ok) {
-        // Salvar ou remover email do localStorage
+
         if (lembrarUsuario) {
           localStorage.setItem("lembrarEmail", data.email);
         } else {
@@ -105,11 +105,12 @@ export default function LoginPage() {
                     }`}
                   disabled={isLoading}
                 />
-                {errors.email ? (
+                {errors.email && (
                   <span className="pl-5 text-sm text-(--danger-color)">
                     {errors.email.message}
                   </span>
-                ) : (
+                )}
+                {!errors.email && (
                   <span className="pl-5 text-sm text-gray-300">
                     Insira o seu e-mail, CPF ou passaporte.
                   </span>
