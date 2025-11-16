@@ -9,7 +9,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormData, loginSchema } from "../../utils/schemaLogin";
+import { LoginFormData, loginSchema } from "./schemaLogin";
 import { toast } from "sonner";
 import okIcon from "../../../public/icons/okIcon.png";
 

@@ -6,7 +6,7 @@ describe("Novo Ticket Schema", () => {
     nomeCliente: "Cliente Teste",
     email: "cliente@example.com",
     prioridade: "Urgente",
-    responsavel: "João Silva",
+    responsavel: "Alexandre Henrique",
     assunto: "Assunto do ticket",
   };
 
