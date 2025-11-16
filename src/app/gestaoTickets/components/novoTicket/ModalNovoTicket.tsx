@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputModal from "./inputModal";
 import { useTicketsStore } from "@/stores/useTicketsStore";
+import { toast } from "sonner";
+import Image from "next/image";
+import okIcon from "../../../../../public/icons/okIcon.png";
 
 interface ModalNovoTicketProps {
     isOpen: boolean;
@@ -41,6 +44,16 @@ export default function ModalNovoTicket({
             priority: data.prioridade as "Urgente" | "Média" | "Baixa",
             responsible: data.responsavel,
             subject: data.assunto,
+        });
+
+        toast.success("Ticket criado com sucesso!", {
+            description: "O ticket foi criado e já está na sua lista.",
+            icon: <Image src={okIcon} alt="Sucesso" width={24} height={24} />,
+            style: {
+                background: 'var(--highlight-color)',
+                color: '#fff',
+                fontWeight: 'bold',
+            },
         });
 
         reset();
