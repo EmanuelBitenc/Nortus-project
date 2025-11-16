@@ -8,6 +8,7 @@ import FiltersTickets from "./FiltersTickets";
 import { Edit, ChevronRight } from "@deemlol/next-icons";
 import Th from "@/components/Table/table";
 import Pagination from "./pagination";
+import { TabelaTicketsSkeleton } from "./TabelaTicketsSkeleton";
 
 interface TabelaTicketsProps {
     ticketsData: GestaoTicketsData;
@@ -31,7 +32,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
     const { tickets } = ticketsData;
     const items_por_pagina = 7;
 
-    // Combinar tickets da API com novos tickets locais
+
     const allTickets = useMemo(() => {
         const apiTickets = tickets;
         const localTickets = newTickets;
@@ -39,6 +40,9 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
         return [...apiTickets, ...localTickets];
     }, [tickets, newTickets]);
 
+    if (!allTickets || allTickets.length === 1) {
+        return <TabelaTicketsSkeleton />;
+    }
 
     const statusOptions = useMemo(() => getOptions(allTickets, "status"), [allTickets]);
     const priorityOptions = useMemo(() => getOptions(allTickets, "priority"), [allTickets]);
