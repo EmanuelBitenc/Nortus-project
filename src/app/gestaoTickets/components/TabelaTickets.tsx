@@ -34,7 +34,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
     // Combinar tickets da API com novos tickets locais
     const allTickets = useMemo(() => {
         const apiTickets = tickets;
-        const localTickets = newTickets; // Já estão no formato correto
+        const localTickets = newTickets;
 
         return [...apiTickets, ...localTickets];
     }, [tickets, newTickets]);
@@ -126,7 +126,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
                     </thead>
                     <tbody className="divide-y divide-slate-700/50">
                         {ticketsFiltrados.length === 0 ? (
-                            <tr>
+                            <tr className="table-fade">
                                 <td colSpan={8} className="py-8 text-center text-(--text-secondary-color)">
                                     Nenhum ticket encontrado com os filtros aplicados.
                                 </td>
@@ -136,6 +136,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
                                 <tr
                                     key={ticket.id}
                                     className="transition-colors hover:bg-slate-700/20"
+
                                 >
                                     <td className="px-3 py-3 text-sm text-white">{ticket.id}</td>
                                     <td className="px-3 py-3">

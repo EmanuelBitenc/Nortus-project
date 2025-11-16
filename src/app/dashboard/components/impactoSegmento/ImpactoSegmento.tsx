@@ -24,7 +24,7 @@ export default function ImpactoSegmento({
   ];
 
   return (
-    <div className="card-board">
+    <div className="card-board ">
       <h3 className="mb-4 text-base font-semibold text-white sm:text-lg">
         Mapa de impacto por segmento
       </h3>

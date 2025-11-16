@@ -76,7 +76,7 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
           </thead>
           <tbody className="divide-y divide-slate-700/50">
             {clientesFiltrados.length === 0 ? (
-              <tr>
+              <tr className="table-fade">
                 <td colSpan={6} className="py-8 text-center text-(--text-secondary-color)">
                   Nenhum cliente encontrado com os filtros aplicados.
                 </td>
