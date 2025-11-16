@@ -37,8 +37,8 @@ export default function ResumeDashboard({
         </p>
         <span
           className={`text-[10px] sm:text-xs ${dashboardData.kpisResume[type].variacao >= 0
-              ? "text-green-400"
-              : "text-red-400"
+            ? "text-(--concluido-color)"
+            : "text-(--danger-color)"
             }`}
         >
           {dashboardData.kpisResume[type].variacao >= 0 ? "+" : ""}

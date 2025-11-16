@@ -42,29 +42,26 @@ export default function MapaClientes() {
                         Mapa de clientes por região
                     </h3>
                 </div>
-                <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-red-400">
+                <div className="flex h-64 items-center justify-center rounded-lg bg-slate-900/30 text-(--danger-color)">
                     <p>Erro ao carregar mapa</p>
                 </div>
             </div>
         );
     }
 
-    const filteredLocations = mapData.locations.filter((location) => {
-        const matchesLocation =
-            selectedLocation === "all" || location.name === selectedLocation;
-        const matchesCategory =
-            selectedCategory === "all" || location.category === selectedCategory;
-        return matchesLocation && matchesCategory;
-    });
-
-    // Obter localizações únicas
-    const uniqueLocations = Array.from(
-        new Set(mapData.locations.map((l) => l.name))
+    const filteredLocations = mapData.locations.filter(loc =>
+        (selectedLocation === "all" || loc.name === selectedLocation) &&
+        (selectedCategory === "all" || loc.category === selectedCategory)
     );
 
-    // Obter categorias únicas
-    const uniqueCategories = Array.from(
-        new Set(mapData.locations.map((l) => l.category))
+
+    const location = Array.from(
+        new Set(mapData.locations.map((location) => location.name))
+    );
+
+
+    const category = Array.from(
+        new Set(mapData.locations.map((location) => location.category))
     );
 
     const categoryNames: Record<string, string> = {
@@ -85,13 +82,13 @@ export default function MapaClientes() {
                     <SelectMap
                         value={selectedLocation}
                         change={setSelectedLocation}
-                        datas={uniqueLocations}
+                        datas={location}
                         label="Todos os locais"
                     />
                     <SelectMap
                         value={selectedCategory}
                         change={setSelectedCategory}
-                        datas={uniqueCategories}
+                        datas={category}
                         categoryNames={categoryNames}
                         label="Todos os tipos"
                     />

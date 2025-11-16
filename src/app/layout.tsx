@@ -3,7 +3,7 @@ import { Inter, Space_Grotesk, Montserrat } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/auth-provider";
 import QueryProvider from "@/components/query-provider";
-import "leaflet/dist/leaflet.css";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,12 +35,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${montserrat.variable} antialiased`}
       >
         <AuthProvider>
           <QueryProvider>{children}</QueryProvider>
         </AuthProvider>
+        <Toaster position="bottom-center" richColors />
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
       </body>
     </html>
   );
