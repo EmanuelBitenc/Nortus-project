@@ -4,7 +4,7 @@ const TOKEN_KEY = "accessToken";
 const USERNAME_KEY = "username";
 
 const COOKIE_OPTIONS = {
-  expires: 7,
+  expires: 1,
   secure: process.env.NODE_ENV === "production",
   sameSite: "strict" as const,
 };

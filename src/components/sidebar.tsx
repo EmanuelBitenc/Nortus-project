@@ -138,7 +138,7 @@ export default function Sidebar() {
 
               <button
                 onClick={() => signOut({ callbackUrl: "/loginPage" })}
-                className="w-full rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                className="w-full cursor-pointer rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
               >
                 Sair
               </button>

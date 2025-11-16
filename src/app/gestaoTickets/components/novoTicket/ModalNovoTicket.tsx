@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "@deemlol/next-icons";
-import { novoTicketSchema, NovoTicketFormData } from "./schemaNovoTicket";
+import { novoTicketSchema, NovoTicketFormData } from "../../../../utils/schemaNovoTicket";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputModal from "./inputModal";
