@@ -17,7 +17,7 @@ export default function Select({
     <select
       value={value}
       onChange={(e) => change(e.target.value)}
-      className="rounded-2xl border border-slate-600 bg-(--background) px-2 py-1 text-xs text-slate-300 sm:px-3 sm:text-sm"
+      className="rounded-2xl border border-slate-600 bg-(--background) px-2 py-2 text-xs text-slate-300 sm:px-3 sm:text-sm"
     >
       <option value="all">{label}</option>
       {datas.map((data) => (
