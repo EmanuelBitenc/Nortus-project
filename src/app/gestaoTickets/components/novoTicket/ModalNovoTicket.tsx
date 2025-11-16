@@ -1,7 +1,6 @@
 "use client";
 
 import { X } from "@deemlol/next-icons";
-import { novoTicketSchema, NovoTicketFormData } from "../../../../utils/schemaNovoTicket";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputModal from "./inputModal";
@@ -9,6 +8,7 @@ import { useTicketsStore } from "@/stores/useTicketsStore";
 import { toast } from "sonner";
 import Image from "next/image";
 import okIcon from "../../../../../public/icons/okIcon.png";
+import { NovoTicketFormData, novoTicketSchema } from "../../schemaNovoTicket";
 
 interface ModalNovoTicketProps {
     isOpen: boolean;
@@ -68,8 +68,8 @@ export default function ModalNovoTicket({
     if (!isOpen) return null;
 
     return (
-        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 ">
-            <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-2xl rounded-2xl bg-(--background) p-8 shadow-2xl">
+        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-(--background) p-6 sm:p-8 shadow-2xl">
 
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-2xl font-semibold text-white">Novo Ticket</h2>
