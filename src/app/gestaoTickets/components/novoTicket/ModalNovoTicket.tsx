@@ -1,7 +1,6 @@
 "use client";
 
 import { X } from "@deemlol/next-icons";
-import { novoTicketSchema, NovoTicketFormData } from "../../../../utils/schemaNovoTicket";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputModal from "./inputModal";
@@ -9,6 +8,7 @@ import { useTicketsStore } from "@/stores/useTicketsStore";
 import { toast } from "sonner";
 import Image from "next/image";
 import okIcon from "../../../../../public/icons/okIcon.png";
+import { NovoTicketFormData, novoTicketSchema } from "../../schemaNovoTicket";
 
 interface ModalNovoTicketProps {
     isOpen: boolean;
