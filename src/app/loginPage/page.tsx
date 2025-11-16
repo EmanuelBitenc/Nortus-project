@@ -70,8 +70,8 @@ export default function LoginPage() {
   };
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#071225] px-6 py-7 text-slate-200 2xl:py-10">
-      <div className="flex w-full max-w-[1200px] flex-col items-start gap-10 lg:flex-row">
-        <section className="flex-1 pl-6 lg:pl-12">
+      <div className="flex w-full max-w-[1200px] items-start gap-10 ">
+        <section className="flex-1  mx-auto lg:mx-0 max-w-[680px] ">
           <div className="mb-10">
             <Image
               src={NortusTextLogo}
@@ -82,7 +82,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="max-w-[680px]">
+          <div className="">
             <h1 className="font-display mb-3 text-4xl text-sky-300">Login</h1>
             <p className="mb-8 text-(--text-secondary-color)">
               Entre com suas credenciais para acessar a sua conta.
@@ -179,7 +179,7 @@ export default function LoginPage() {
           </div>
         </section>
 
-        <aside className="relative hidden shrink-0 lg:block lg:w-[620px]">
+        <aside className="relative hidden shrink-0 lg:block  lg:w-[620px]">
           <AsideImg />
         </aside>
       </div>

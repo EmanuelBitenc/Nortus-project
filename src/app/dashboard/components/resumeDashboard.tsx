@@ -15,7 +15,7 @@ export default function ResumeDashboard({
   type,
 }: ResumeDashboardProps) {
   return (
-    <div className="relative rounded-xl border border-slate-700/50 bg-slate-800/50 px-3 py-4 backdrop-blur-sm sm:px-4 sm:py-5">
+    <div className="relative rounded-xl border border-slate-700/50 bg-slate-800/50 px-3 py-4  sm:px-4 sm:py-5 hover:bg-slate-700/50">
       <div className="flex h-full flex-col justify-between gap-2 sm:gap-3">
         <p className="font-second-display text-[10px] text-(--white) sm:text-xs">
           {name}

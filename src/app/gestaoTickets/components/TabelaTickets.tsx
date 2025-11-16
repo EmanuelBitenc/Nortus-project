@@ -34,7 +34,7 @@ export default function TabelaTickets({ ticketsData }: TabelaTicketsProps) {
     // Combinar tickets da API com novos tickets locais
     const allTickets = useMemo(() => {
         const apiTickets = tickets;
-        const localTickets = newTickets; // Já estão no formato correto
+        const localTickets = newTickets;
 
         return [...apiTickets, ...localTickets];
     }, [tickets, newTickets]);
