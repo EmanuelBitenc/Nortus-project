@@ -43,7 +43,7 @@ export default function ResumoTickets({ ticketsData }: ResumoTicketsProps) {
             {cards.map((card) => (
                 <div
                     key={card.title}
-                    className="card-board"
+                    className="card-board card-board-hover"
                 >
                     <div>
                         <div className="mb-4">

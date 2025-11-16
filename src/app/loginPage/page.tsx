@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormData, loginSchema } from "../../utils/schemaLogin";
+import { toast } from "sonner";
+import okIcon from "../../../public/icons/okIcon.png";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -61,6 +63,14 @@ export default function LoginPage() {
           localStorage.removeItem("lembrarEmail");
         }
         router.push("/");
+        toast.success("Login realizado com sucesso!", {
+          icon: <Image src={okIcon} alt="Sucesso" width={24} height={24} />,
+          style: {
+            background: 'var(--highlight-color)',
+            color: '#fff',
+            fontWeight: 'bold',
+          },
+        });
       }
     } catch {
       setGeneralError("Erro ao fazer login. Tente novamente.");
