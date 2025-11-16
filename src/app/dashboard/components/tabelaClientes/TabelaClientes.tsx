@@ -5,6 +5,7 @@ import { Client, DashboardData } from "@/services/dashboard.service";
 import FiltersTabelaCliente from "./filtersTabelaCliente";
 import { useTabelaClientesStore } from "@/stores/useTabelaClientesStore";
 import Th from "@/components/Table/table";
+import { TabelaClientesSkeleton } from "./TabelaClientesSkeleton";
 
 interface TabelaClientesProps {
   dashboardData: DashboardData;
@@ -26,6 +27,9 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
 
   const clientes = dashboardData.activeClients.data;
 
+  if (!clientes || clientes.length === 1) {
+    return <TabelaClientesSkeleton />;
+  }
 
   const statusUnicos = useMemo(() => getOptions(clientes, "status"), [clientes]);
   const tiposUnicos = useMemo(() => getOptions(clientes, "secureType"), [clientes]);
