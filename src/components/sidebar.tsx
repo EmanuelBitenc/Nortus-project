@@ -16,6 +16,7 @@ interface MenuItem {
   name: string;
   href: string;
   icon: string;
+  disabled?: boolean;
 }
 
 const menuItems: MenuItem[] = [
@@ -25,12 +26,14 @@ const menuItems: MenuItem[] = [
     name: "Chat & Assistente Virtual",
     href: "/assistenteVirtual",
     icon: ChatIcon,
+    disabled: true,
   },
-  { name: "Visão 360º", href: "/visao", icon: VisaoIcon },
+  { name: "Visão 360º", href: "/visao", icon: VisaoIcon, disabled: true },
   {
     name: "Simulador de Planos",
     href: "/simulacaoPlanos",
     icon: SimuladorIcon,
+    disabled: true,
   },
 ];
 
@@ -61,13 +64,32 @@ export default function Sidebar() {
       <nav className="mb-0 flex w-full flex-1 flex-col items-center justify-center gap-8 2xl:mb-52">
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
+
+          if (item.disabled) {
+            return (
+              <div
+                key={item.name}
+                className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-transparent opacity-40 "
+
+              >
+                <Image
+                  src={item.icon}
+                  alt={item.name}
+                  width={24}
+                  height={24}
+                  className="opacity-70"
+                />
+              </div>
+            );
+          }
+
           return (
             <Link
               key={item.name}
               href={item.href}
               className={`group relative flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-200 ${isActive
-                  ? "button-shiny bg-(--highlight-color) shadow-lg shadow-sky-500/30"
-                  : "bg-transparent hover:bg-slate-700/50"
+                ? "button-shiny bg-(--highlight-color) shadow-lg shadow-sky-500/30"
+                : "bg-transparent hover:bg-slate-700/50"
                 } `}
               title={item.name}
             >
@@ -116,7 +138,7 @@ export default function Sidebar() {
 
               <button
                 onClick={() => signOut({ callbackUrl: "/loginPage" })}
-                className="w-full rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                className="w-full cursor-pointer rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
               >
                 Sair
               </button>

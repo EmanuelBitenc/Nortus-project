@@ -50,19 +50,6 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
     });
   }, [clientes, search, statusFilter, tipoFilter, localFilter]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Ativo":
-        return "bg-(--ativo-color) text-(--background)";
-      case "Pendente":
-        return "bg-(--pendente-color) text-(--background)";
-      case "Inativo":
-        return "bg-red-500/20 text-red-500";
-      default:
-        return "bg-slate-500/20 text-(--text-secondary-color)";
-    }
-  };
-
   return (
     <div className="card-board">
       <h3 className="mb-4 text-base font-semibold text-white sm:text-lg">
@@ -100,8 +87,8 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
                   key={cliente.id}
                   className="transition-colors hover:bg-slate-700/20"
                 >
-                  <td className="py-3">
-                    <div className="flex flex-col items-start">
+                  <td className="py-3 px-3">
+                    <div className="flex flex-col items-start ">
                       <span className="text-sm font-medium text-white">
                         {cliente.name}
                       </span>
@@ -110,8 +97,8 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
                       </span>
                     </div>
                   </td>
-                  <td className="text-white max-w-[200px]">{cliente.secureType}</td>
-                  <td className="text-white">
+                  <td className="px-3 text-white max-w-[200px]">{cliente.secureType}</td>
+                  <td className="px-3 text-white">
                     {cliente.monthValue.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -120,13 +107,13 @@ export default function TabelaClientes({ dashboardData }: TabelaClientesProps) {
 
                   <td>
                     <span
-                      className={`inline-block rounded-full px-3 py-1 font-medium ${getStatusColor(cliente.status)}`}
+                      className={` inline-block rounded-full px-3 py-1 font-medium ${cliente.status === "Ativo" ? "xl:bg-(--ativo-color) xl:text-(--background) text-(--ativo-color)" : cliente.status === "Pendente" ? "xl:bg-(--pendente-color) xl:text-(--background) text-(--pendente-color)" : "xl:bg-red-500 xl:text-(--background) text-red-500"}  `}
                     >
                       {cliente.status}
                     </span>
                   </td>
-                  <td className="text-white">{cliente.renewalDate}</td>
-                  <td className="text-white">{cliente.location}</td>
+                  <td className="px-3 text-white">{cliente.renewalDate}</td>
+                  <td className="px-3 text-white">{cliente.location}</td>
                 </tr>
               ))
             )}
