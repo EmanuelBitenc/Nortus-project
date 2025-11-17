@@ -5,6 +5,10 @@ export interface LoginResponse {
   data: {
     accessToken: string;
     username: string;
+    user?: {
+      name: string;
+      email: string;
+    };
   };
 }
 

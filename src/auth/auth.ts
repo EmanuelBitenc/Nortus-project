@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authService } from "@/services/auth.service";
+import { cookieStorage } from "@/utils/cookie-storage";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -17,10 +18,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
 
           if (response.data?.accessToken) {
+            cookieStorage.setToken(response.data.accessToken);
+            cookieStorage.setUsername(response.data.username);
+
             return {
               id: "1",
-              name: response.data.username,
-              email: credentials.email as string,
+              name: response.data.user?.name || response.data.username,
+              email: response.data.user?.email || (credentials.email as string),
               accessToken: response.data.accessToken,
             };
           }

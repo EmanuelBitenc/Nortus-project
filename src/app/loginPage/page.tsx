@@ -12,6 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormData, loginSchema } from "./schemaLogin";
 import { toast } from "sonner";
 import okIcon from "../../../public/icons/okIcon.png";
+import { userStorage } from "@/utils/local-storage";
+import { authService } from "@/services/auth.service";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,6 +58,17 @@ export default function LoginPage() {
       if (result?.error) {
         setGeneralError("Credenciais inválidas");
       } else if (result?.ok) {
+        const loginResponse = await authService.login({
+          email: data.email,
+          password: data.password,
+        });
+
+        if (loginResponse.data) {
+          userStorage.setUser({
+            name: loginResponse.data.username,
+            email: data.email,
+          });
+        }
 
         if (lembrarUsuario) {
           localStorage.setItem("lembrarEmail", data.email);
