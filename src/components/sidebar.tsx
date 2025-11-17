@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import { userStorage } from "@/utils/local-storage";
+import { cookieStorage } from "@/utils/cookie-storage";
 import { useState } from "react";
 import NortusLogo from "../../public/imgs/NortusLogo.svg";
 import DashboardIcon from "../../public/icons/dashboardIcon.svg";
@@ -41,6 +43,15 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleLogout = () => {
+    // Limpar localStorage e cookies
+    userStorage.clearAll();
+    cookieStorage.clearAll();
+
+    // Fazer signOut do NextAuth
+    signOut({ callbackUrl: "/loginPage" });
+  };
 
   const getInitials = (name: string | null | undefined): string => {
     if (!name) return "U";
@@ -137,7 +148,7 @@ export default function Sidebar() {
               </div>
 
               <button
-                onClick={() => signOut({ callbackUrl: "/loginPage" })}
+                onClick={handleLogout}
                 className="w-full cursor-pointer rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
               >
                 Sair
