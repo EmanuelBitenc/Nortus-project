@@ -162,7 +162,7 @@ O projeto é responsivo para telas a partir de **1000px de largura**, conforme e
 
 ## Design
 
-Interface baseada no protótipo Figma da Nortus com implementação fiel aos componentes e estilos propostos.
+Interface baseada no protótipo Figma da Nortus, com implementação fiel aos componentes e estilos propostos. Uso de Tailwind, configurado com variáveis de cores e aplicação de ajustes para melhor escrita de código.
 
 ## Uso de IA
 
