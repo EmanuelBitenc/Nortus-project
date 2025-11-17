@@ -37,9 +37,5 @@ export const cookieStorage = {
   clearAll: (): void => {
     Cookies.remove(TOKEN_KEY);
     Cookies.remove(USERNAME_KEY);
-
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem("user");
-    }
   },
 };

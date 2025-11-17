@@ -5,7 +5,7 @@ import NortusTextLogo from "../../../public/imgs/NortusTextLogo.svg";
 import { Eye, EyeOff } from "@deemlol/next-icons";
 import { useState, useEffect } from "react";
 import AsideImg from "./components/aside-img";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,16 +58,20 @@ export default function LoginPage() {
       if (result?.error) {
         setGeneralError("Credenciais inválidas");
       } else if (result?.ok) {
-        const loginResponse = await authService.login({
-          email: data.email,
-          password: data.password,
-        });
-
-        if (loginResponse.data) {
-          userStorage.setUser({
-            name: loginResponse.data.username,
+        try {
+          const loginResponse = await authService.login({
             email: data.email,
+            password: data.password,
           });
+
+          if (loginResponse.data) {
+            userStorage.setUser({
+              name: loginResponse.data.username,
+              email: data.email,
+            });
+          }
+        } catch (error) {
+          console.error("Erro ao salvar dados do usuário:", error);
         }
 
         if (lembrarUsuario) {
@@ -75,7 +79,7 @@ export default function LoginPage() {
         } else {
           localStorage.removeItem("lembrarEmail");
         }
-        router.push("/");
+
         toast.success("Login realizado com sucesso!", {
           icon: <Image src={okIcon} alt="Sucesso" width={24} height={24} />,
           style: {
@@ -84,6 +88,10 @@ export default function LoginPage() {
             fontWeight: 'bold',
           },
         });
+
+        setTimeout(() => {
+          router.push("/");
+        }, 100);
       }
     } catch {
       setGeneralError("Erro ao fazer login. Tente novamente.");
