@@ -1,9 +1,9 @@
 ### Desafio Técnico - React Loomi
 
 - [Acesse o Relatório aqui.](https://docs.google.com/document/d/1ovpAAxfCU9x6N_Q-qRRYwzDoZl_LM21t0kYuvWYh5xE/edit?usp=sharing)
-- [Publicado Aqui.](https://desafio-loomi-alpha.vercel.app)
-- [Repositório Github.](https://github.com/EmanuelBitenc/Desafio-Loomi)
-- [Kanban gerenciamento de demandas.](https://trello.com/b/FAHreYQw/desafio-loomi)
+- [Publicado Aqui.](https://nortus-project-alpha.vercel.app)
+- [Repositório Github.](https://github.com/EmanuelBitenc/nortus-project)
+- [Kanban gerenciamento de demandas.](https://trello.com/b/FAHreYQw/nortus-project)
 
 # Nortus - Plataforma de Inteligência para Vendas e Atendimento
 
@@ -103,10 +103,10 @@ Para `Pull Request` era necessária a minha avaliação sobre o `PR` além tamb�
 
 ```bash
 # Clone o repositório
-git clone https://github.com/EmanuelBitenc/Desafio-Loomi.git
+git clone https://github.com/EmanuelBitenc/nortus-project.git
 
 # Entre na pasta do projeto
-cd desafio-loomi
+cd nortus-project
 
 # Instale as dependências
 npm install
