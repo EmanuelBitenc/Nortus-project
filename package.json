@@ -21,7 +21,7 @@
     "apexcharts": "^5.3.6",
     "axios": "^1.13.2",
     "js-cookie": "^3.0.5",
-    "next": "16.0.7",
+    "next": "16.0.10",
     "next-auth": "^5.0.0-beta.30",
     "react": "19.2.0",
     "react-apexcharts": "^1.8.0",
